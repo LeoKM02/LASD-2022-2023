@@ -18,10 +18,9 @@ inline bool DictionaryContainer<Data>::InsertAll(const MappableContainer<Data>& 
 
 template <typename Data>
 inline bool DictionaryContainer<Data>::InsertAll(MutableMappableContainer<Data>&& con){
-    MutableMappableContainer<Data>& ccon = std::move(con);
     bool ret = true;
-    ccon.Map([this, &ret](Data& dat){
-        ret = ret && Insert(dat);
+    con.Map([this, &ret](Data& dat){
+        ret = ret && Insert(std::move(dat));
     });
     return ret;
 } // Move of the value; From MutableMappableContainer; True if all are inserted
@@ -46,10 +45,9 @@ inline bool DictionaryContainer<Data>::InsertSome(const MappableContainer<Data>&
 
 template <typename Data>
 inline bool DictionaryContainer<Data>::InsertSome(MutableMappableContainer<Data>&& con){
-    MutableMappableContainer<Data>& ccon = std::move(con);
     bool ret = true;
-    ccon.Map([this, &ret](Data& dat){
-        ret = ret || Insert(dat);
+    con.Map([this, &ret](Data& dat){
+        ret = ret || Insert(std::move(dat));
     });
     return ret;
 } // Move of the value; From MutableMappableContainer; True if some is inserted

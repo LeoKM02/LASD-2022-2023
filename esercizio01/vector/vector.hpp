@@ -66,36 +66,37 @@ public:
 
   // Specific member function (inherited from ClearableContainer)
 
-  virtual void Clear() override; // Override ClearableContainer member
+  inline virtual void Clear() override; // Override ClearableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ResizableContainer)
 
-  virtual void Resize(const ulong) override; // Override ResizableContainer member
+  inline virtual void Resize(const ulong) override; // Override ResizableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
 
-  virtual const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
-  virtual Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline virtual const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline virtual Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
-  virtual const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
-  virtual Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
+  inline virtual const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
+  inline virtual Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
-  virtual const Data& Back() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
-  virtual Data& Back() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
+  inline virtual const Data& Back() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
+  inline virtual Data& Back() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from SortableLinearContainer)
 
-  virtual void Sort() noexcept override; // Override SortableLinearContainer member
+  inline virtual void Sort() noexcept override; // Override SortableLinearContainer member
 
 protected:
 
-  // Auxiliary functions, if necessary!
+  virtual void QuickSort(const ulong, const ulong) noexcept;
+  virtual ulong Partiziona(const ulong, const ulong) noexcept;
 
 };
 

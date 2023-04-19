@@ -34,14 +34,14 @@ protected:
 
     // Specific constructors
     // ...
-    inline Node(const Data& dat): elem(dat){}
+    inline Node(const Data& dat);
     inline Node(Data&&) noexcept;
 
     /* ********************************************************************** */
 
     // Copy constructor
     // ...
-    inline Node(const Node& node): elem(node.info){}
+    inline Node(const Node& node);
 
     // Move constructor
     // ...

@@ -9,7 +9,7 @@ namespace lasd {
 
 template<typename Data>
 inline bool LinearContainer<Data>::operator==(const LinearContainer& con) const noexcept{
-    if(size == con.Size()){
+    if(size == con.size){
         for(ulong i=0; i<size; ++i){
             if(operator[](i) != con.operator[](i)){
                 return false;
@@ -25,7 +25,7 @@ inline bool LinearContainer<Data>::operator==(const LinearContainer& con) const 
 
 template<typename Data>
 inline bool LinearContainer<Data>::operator==(const LinearContainer& con) const noexcept{
-    if(size == con.Size()){
+    if(size == con.size){
         for(ulong i=0; i<size; ++i){
             if(operator[](i) != con.operator[](i)){
                 return true;
@@ -130,7 +130,7 @@ inline void LinearContainer<Data>::PostOrderMap(MutableMapFunctor fun) {
 
 template<typename Data>
 inline bool SortableLinearContainer<Data>::operator==(const SortableLinearContainer& con) const noexcept {
-    if(size == con.Size()){
+    if(size == con.size){
         for(ulong i=0; i<size; ++i){
             if(operator[](i) != con.operator[](i)){
                 return false;
@@ -145,7 +145,7 @@ inline bool SortableLinearContainer<Data>::operator==(const SortableLinearContai
 
 template<typename Data>
 inline bool SortableLinearContainer<Data>::operator!=(const SortableLinearContainer& con) const noexcept {
-    if(size == con.Size()){
+    if(size == con.size){
         for(ulong i=0; i<size; ++i){
             if(operator[](i) != con.operator[](i)){
                 return true;

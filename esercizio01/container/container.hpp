@@ -109,7 +109,7 @@ public:
   /* ************************************************************************ */
 
   // Specific member function
-  virtual void Resize(ulong) = 0;
+  virtual void Resize(const ulong) = 0;
 
 };
 
