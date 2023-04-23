@@ -24,7 +24,7 @@ inline bool LinearContainer<Data>::operator==(const LinearContainer& con) const 
 }
 
 template<typename Data>
-inline bool LinearContainer<Data>::operator==(const LinearContainer& con) const noexcept{
+inline bool LinearContainer<Data>::operator!=(const LinearContainer& con) const noexcept{
     if(size == con.size){
         for(ulong i=0; i<size; ++i){
             if(operator[](i) != con.operator[](i)){
@@ -36,7 +36,6 @@ inline bool LinearContainer<Data>::operator==(const LinearContainer& con) const 
     else{
         return true;
     }
-    
 }
 
 template<typename Data>

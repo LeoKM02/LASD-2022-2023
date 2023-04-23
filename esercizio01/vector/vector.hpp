@@ -59,8 +59,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  inline virtual bool operator==(const Vector&) const noexcept;
-  inline virtual bool operator!=(const Vector&) const noexcept;
+  inline bool operator==(const Vector&) const noexcept;
+  inline bool operator!=(const Vector&) const noexcept;
 
   /* ************************************************************************ */
 
@@ -73,6 +73,12 @@ public:
   // Specific member function (inherited from ResizableContainer)
 
   inline virtual void Resize(const ulong) override; // Override ResizableContainer member
+
+  /* ************************************************************************ */
+
+  // Specific member function (inherited from TestableContainer)
+
+  inline virtual bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
   /* ************************************************************************ */
 

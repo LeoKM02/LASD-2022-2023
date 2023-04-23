@@ -35,8 +35,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  inline virtual bool operator==(const LinearContainer&) const noexcept; // Comparison of abstract types is possible.
-  inline virtual bool operator!=(const LinearContainer&) const noexcept; // Comparison of abstract types is possible.
+  inline bool operator==(const LinearContainer&) const noexcept; // Comparison of abstract types is possible.
+  inline bool operator!=(const LinearContainer&) const noexcept; // Comparison of abstract types is possible.
 
   /* ************************************************************************ */
 
@@ -138,8 +138,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  inline virtual bool operator==(const SortableLinearContainer&) const noexcept; // Comparison of abstract types is possible.
-  inline virtual bool operator!=(const SortableLinearContainer&) const noexcept; // Comparison of abstract types is possible.
+  inline bool operator==(const SortableLinearContainer&) const noexcept; // Comparison of abstract types is possible.
+  inline bool operator!=(const SortableLinearContainer&) const noexcept; // Comparison of abstract types is possible.
 
   /* ************************************************************************ */
 

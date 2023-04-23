@@ -14,89 +14,83 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class StackVec {
+class StackVec: virtual public Stack<Data>, virtual public Vector<Data> {
                   // Must extend Stack<Data>,
                   //             Vector<Data>
-
-private:
-
-  // ...
-
 protected:
 
-  // using Vector<Data>::???;
-
-  // ...
+  using Container::size;
+  using Vector<Data>::elements;
 
 public:
 
   // Default constructor
-  // StackVec() specifier;
+  StackVec() = default;
 
   /* ************************************************************************ */
 
   // Specific constructor
-  // StackVec(argument) specifiers; // A stack obtained from a MappableContainer
-  // StackVec(argument) specifiers; // A stack obtained from a MutableMappableContainer
+  StackVec(const MappableContainer&); // A stack obtained from a MappableContainer
+  StackVec(MutableMappableContainer&&) noexcept; // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // StackVec(argument);
+  StackVec(const StackVec&);
 
   // Move constructor
-  // StackVec(argument);
+  StackVec(StackVec&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~StackVec() specifier;
+  virtual ~StackVec() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument);
+  StackVec& operator=(const StackVec&);
 
   // Move assignment
-  // type operator=(argument);
+  StackVec& operator=(StackVec&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  inline bool operator==(const StackVec&) const noexcept;
+  inline bool operator!=(const StackVec&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Stack)
 
-  // type Top() specifiers; // Override Stack member (non-mutable version; must throw std::length_error when empty)
-  // type Top() specifiers; // Override Stack member (non-mutable version; must throw std::length_error when empty)
-  // type Pop() specifiers; // Override Stack member (must throw std::length_error when empty)
-  // type TopNPop() specifiers; // Override Stack member (must throw std::length_error when empty)
-  // type Push(argument) specifiers; // Override Stack member (copy of the value)
-  // type Push(argument) specifiers; // Override Stack member (move of the value)
+  inline virtual const Data& Top() const override; // (non-mutable version; concrete function must throw std::length_error when empty)
+  inline virtual Data& Top() override; // (mutable version; concrete function must throw std::length_error when empty)
+  inline virtual void Pop() override; // (concrete function must throw std::length_error when empty)
+  inline virtual Data TopNPop() override; // (concrete function must throw std::length_error when empty)
+  inline virtual void Push(const Data&) override; // Copy of the value
+  inline virtual void Push(Data&&) noexcept override; // Move of the value
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
-  // type Empty() specifiers; // Override Container member
+  inline virtual bool Empty() const noexcept override; // Override Container member
 
-  // type Size() specifiers; // Override Container member
+  inline virtual ulong Size() const noexcept override; // Override Container member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
 
-  // type Clear() specifiers; // Override ClearableContainer member
+  inline virtual void Clear() override; // Override ClearableContainer member
 
 protected:
 
   // Auxiliary member functions
 
-  // type Expand() specifiers;
-  // type Reduce() specifiers;
+  type Expand();
+  type Reduce();
 
 };
 

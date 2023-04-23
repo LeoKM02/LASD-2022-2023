@@ -80,8 +80,8 @@ public:
   /* ************************************************************************ */
 
   // Specific constructor
-  List(const MappableContainer&); // A list obtained from a MappableContainer
-  List(MutableMappableContainer&&); // A list obtained from a MutableMappableContainer
+  List(const MappableContainer<Data>&); // A list obtained from a MappableContainer
+  List(MutableMappableContainer<Data>&&) noexcept; // A list obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
@@ -99,136 +99,127 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  type operator=(argument) specifiers;
+  inline List& operator=(const List&);
 
   // Move assignment
-  type operator=(argument) specifiers;
+  inline List& operator=(List&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  type operator==(argument) specifiers;
-  type operator!=(argument) specifiers;
+  inline bool operator==(const List&) const noexcept;
+  inline bool operator!=(const List&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  type InsertAtFront(argument) specifier; // Copy of the value
-  type InsertAtFront(argument) specifier; // Move of the value
-  type RemoveFromFront() specifier; // (must throw std::length_error when empty)
-  type FrontNRemove() specifier; // (must throw std::length_error when empty)
+  inline virtual void InsertAtFront(const Data&); // Copy of the value
+  inline virtual void InsertAtFront(Data&&) noexcept; // Move of the value
 
-  type InsertAtBack(argument) specifier; // Copy of the value
-  type InsertAtBack(argument) specifier; // Move of the value
+  inline virtual void RemoveFromFront(); // (must throw std::length_error when empty)
+
+  inline virtual Data FrontNRemove(); // (must throw std::length_error when empty)
+
+  inline virtual void InsertAtBack(const Data&); // Copy of the value
+  inline virtual void InsertAtBack(Data&&) noexcept; // Move of the value
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
 
-  type Clear() specifiers; // Override ClearableContainer member
+  inline virtual void Clear() override; // Override ClearableContainer member
+
+  /* ************************************************************************ */
+
+  // Specific member function (inherited from TestableContainer)
+
+  inline virtual bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from DictionaryContainer)
 
-  type Insert(argument) specifier; // Copy of the value
-  type Insert(argument) specifier; // Move of the value
-  type Remove(argument) specifier;
+  inline virtual bool Insert(const Data&) override; // Copy of the value
+  inline virtual bool Insert(Data&&) override; // Move of the value
+  inline virtual bool Remove(const Data&) override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
 
-  type operator[](argument) specifiers; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
-  type operator[](argument) specifiers; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline virtual const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline virtual Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
-  type Front() specifiers; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
-  type Front() specifiers; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
+  inline virtual const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
+  inline virtual Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
-  type Back() specifiers; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
-  type Back() specifiers; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
-
-  /* ************************************************************************ */
-
-  // Specific member function (inherited from FoldableContainer)
-
-  // using typename FoldableContainer<Data>::FoldFunctor;
-
-  // type Fold(arguments) specifiers; // Override FoldableContainer member
+  inline virtual const Data& Back() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
+  inline virtual Data& Back() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
   /* ************************************************************************ */
+
+  using typename FoldableContainer<Data>::FoldFunctor;
 
   // Specific member function (inherited from PreOrderFoldableContainer)
 
-  // type PreOrderFold(arguments) specifiers; // Override PreOrderFoldableContainer member
+  inline virtual void PreOrderFold(FoldFunctor, void *) const override; // Override PreOrderFoldableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PostOrderFoldableContainer)
 
-  // type PostOrderFold(arguments) specifiers; // Override PostOrderFoldableContainer member
+  inline virtual void PostOrderFold(FoldFunctor, void *) const override; // Override PostOrderFoldableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from MappableContainer)
-
-  // using typename MappableContainer<Data>::MapFunctor;
-
-  // type Map(argument) specifiers; // Override MappableContainer member
+  using typename MappableContainer<Data>::MapFunctor;
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PreOrderMappableContainer)
 
-  // type PreOrderMap(argument) specifiers; // Override PreOrderMappableContainer member
+  inline virtual void PreOrderMap(MapFunctor) const override; // Override PreOrderMappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PostOrderMappableContainer)
 
-  // type PostOrderMap(argument) specifiers; // Override PostOrderMappableContainer member
+  inline virtual void PostOrderMap(MapFunctor) const override; // Override PostOrderMappableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from MutableMappableContainer)
-
-  // using typename MutableMappableContainer<Data>::MutableMapFunctor;
-
-  // type Map(argument) specifiers; // Override MutableMappableContainer member
+  using typename MutableMappableContainer<Data>::MutableMapFunctor;
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from MutablePreOrderMappableContainer)
 
-  // type PreOrderMap(argument) specifiers; // Override MutablePreOrderMappableContainer member
+  inline virtual void PreOrderMap(MutableMapFunctor) override; // Override MutablePreOrderMappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from MutablePostOrderMappableContainer)
 
-  // type PostOrderMap(argument) specifiers; // Override MutablePostOrderMappableContainer member
+  inline virtual void PostOrderMap(MutableMapFunctor) override; // Override MutablePostOrderMappableContainer member
 
 protected:
 
   // Auxiliary member functions (for PreOrderFoldableContainer & PostOrderFoldableContainer)
 
-  // type PreOrderFold(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  // type PostOrderFold(arguments) specifiers; // Accessory function executing from one point of the list onwards
+  inline virtual void PostOrderFold(FoldFunctor, void *, Node*) const; // Accessory function executing from one point of the list onwards
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for PreOrderMappableContainer & PostOrderMappableContainer)
 
-  // type PreOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onward
+  inline virtual void PostOrderMap(MapFunctor, Node*) const; // Accessory function executing from one point of the list onward
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for MutablePreOrderMappableContainer & MutablePostOrderMappableContainer)
 
-  // type PreOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onward
+  inline virtual void PostOrderMap(MutableMapFunctor, Node*); // Accessory function executing from one point of the list onward
 
   /* ************************************************************************ */
 

@@ -124,6 +124,16 @@ inline void Vector<Data>::Resize(const ulong newsize) {
 }
 
 template<typename Data>
+inline bool Vector<Data>::Exists(const Data& dat) const noexcept {
+    for(ulong i=0; i<size; ++i){
+        if(elements[i] == dat){
+            return true;
+        }
+    }
+    return false;
+}
+
+template<typename Data>
 inline const Data& Vector<Data>::operator[](const ulong i) const {
     if(i>=size){
         throw std::out_of_range;
