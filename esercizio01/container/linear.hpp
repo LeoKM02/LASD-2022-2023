@@ -145,7 +145,7 @@ public:
 
   // Specific member function
 
-  virtual void Sort() noexcept = 0;
+  virtual void Sort() = 0;
 
 };
 

@@ -1,3 +1,4 @@
+#include "vector.hpp"
 
 namespace lasd {
 
@@ -11,7 +12,7 @@ Vector<Data>::Vector(const ulong s){
 
 template<typename Data>
 Vector<Data>::Vector(const MappableContainer<Data>& con){
-    size = con.size;
+    size = con.Size();
     elements = new Data[size]{};
     ulong i = 0;
     con.Map([this, &i](const Data& dat){
@@ -34,6 +35,7 @@ Vector<Data>::Vector(MutableMappableContainer<Data>&& con) {
 template<typename Data>
 Vector<Data>::Vector(const Vector& con) {
     size = con.size;
+    elements = new Data[size]{};
     std::copy(con.elements, con.elements + con.size, elements);
 }
 
@@ -58,16 +60,15 @@ Vector<Data>& Vector<Data>::operator=(const Vector& con){
 
 template<typename Data>
 Vector<Data>& Vector<Data>::operator=(Vector&& con) noexcept {
-    Vector * newcon = new Vector(con);
-    std::swap(*newcon, *this);
-    delete newcon;
+    std::swap(con.size, size);
+    std::swap(con.elements, elements);
     return *this;
 }
 
 template<typename Data>
 inline bool Vector<Data>::operator==(const Vector& con) const noexcept {
     if(size == con.size){
-        for(ulong i=0; i<size; ++i){
+        for(ulong i=0; i<Size(); ++i){
             if(elements[i] != con.elements[i]){
                 return false;
             }
@@ -81,17 +82,7 @@ inline bool Vector<Data>::operator==(const Vector& con) const noexcept {
 
 template<typename Data>
 inline bool Vector<Data>::operator!=(const Vector& con) const noexcept {
-    if(size == con.size){
-        for(ulong i=0; i<size; ++i){
-            if(elements[i] != con.elements[i]){
-                return true;
-            }
-        }
-        return false;
-    }
-    else{
-        return true;
-    }
+    return (! operator==(con));
 }
 
 template<typename Data>
@@ -103,29 +94,26 @@ inline void Vector<Data>::Clear() {
 
 template<typename Data>
 inline void Vector<Data>::Resize(const ulong newsize) {
-    size = newsize;
-    if(s>0){
-        Data * temp = new Data[newsize];
+    if(newsize>0){
+        Data * temp = new Data[newsize]{};
         ulong lim = (size < newsize)? size : newsize;
-        ulong i;
+        ulong i = 0;
         while(i<lim){
-            temp[i++] = elements[i];
+            std::swap(temp[i], elements[i]);
+            ++i;
         }
-        while(i<newsize){
-            temp[i++] = 0;
-        }
-        delete[] elements;
-        elements = temp;
+        swap(elements, temp);
+        delete[] temp;
+        size = newsize;
     }
     else{
-        delete[] elements;
-        elements = nullptr;
+        Clear();
     }
 }
 
 template<typename Data>
 inline bool Vector<Data>::Exists(const Data& dat) const noexcept {
-    for(ulong i=0; i<size; ++i){
+    for(ulong i=0; i<Size(); ++i){
         if(elements[i] == dat){
             return true;
         }
@@ -135,7 +123,7 @@ inline bool Vector<Data>::Exists(const Data& dat) const noexcept {
 
 template<typename Data>
 inline const Data& Vector<Data>::operator[](const ulong i) const {
-    if(i>=size){
+    if(i>=Size()){
         throw std::out_of_range();
     }
     return elements[i];
@@ -143,7 +131,7 @@ inline const Data& Vector<Data>::operator[](const ulong i) const {
 
 template<typename Data>
 inline Data& Vector<Data>::operator[](const ulong i) {
-    if(i>=size){
+    if(i>=Size()){
         throw std::out_of_range();
     }
     return elements[i];
@@ -151,7 +139,7 @@ inline Data& Vector<Data>::operator[](const ulong i) {
 
 template<typename Data>
 inline const Data& Vector<Data>::Front() const {
-    if(size==0){
+    if(Size()==0){
         throw std::length_error();
     }
     return elements[0];
@@ -159,7 +147,7 @@ inline const Data& Vector<Data>::Front() const {
 
 template<typename Data>
 inline Data& Vector<Data>::Front(){
-    if(size==0){
+    if(Size()==0){
         throw std::length_error();
     }
     return elements[0];
@@ -167,47 +155,64 @@ inline Data& Vector<Data>::Front(){
 
 template<typename Data>
 inline const Data& Vector<Data>::Back() const {
-    if(size==0){
+    if(Size()==0){
         throw std::length_error();
     }
-    return elements[size - 1];
+    return elements[Size() - 1];
 }
 
 template<typename Data>
 inline Data& Vector<Data>::Back(){
-    if(size==0){
+    if(Size()==0){
         throw std::length_error();
     }
-    return elements[size - 1];
+    return elements[Size() - 1];
 }
 
 template<typename Data>
-inline void Vector<Data>::Sort() noexcept {
-    QuickSort(0, size-1);
+inline void Vector<Data>::Sort() {
+    MergeSort(0, Size()-1);
 }
 
 template<typename Data>
-void Vector<Data>::QuickSort(const ulong p, const ulong r) noexcept {
-    if(p<r){
-        ulong q = Partiziona(p, r);
-        QuickSort(p, q);
-        QuickSort(q+1, r);
+inline void Vector<Data>::MergeSort(ulong p, ulong r){
+    ulong q;
+    if(p < r){
+        q = (p+r)/2;
+        MergeSort(p, q);
+        MergeSort(q+1, r);
+        Merge(p, q, r);
     }
 }
 
 template<typename Data>
-ulong Vector<Data>::Partiziona(const ulong p, const ulong r) noexcept {
-    Data x = elements[p];
-    ulong i = p-1;
-    ulong j = r+1;
-    do{
-        do{}while(elements[--j]<=x);
-        do{}while(elements[++i]>=x);
-        if(i<j){
-            std::swap(elements[i], elements[j]);
+inline void Vector<Data>::Merge(ulong p, ulong q, ulong r){
+    ulong x, y, z;
+    Data* temp = new Data[r-p]{};
+    x = p;
+    y = q+1;
+    z = 0;
+
+    while(x<=q && y<=r){
+        if(elements[x] < elements[y]){
+            temp[z] = elements[x++];
         }
-    }while(i>=j);
-    return j;
+        else{
+            temp[z] = elements[y++];
+        }
+        ++z;
+    }
+
+    while(x<=q){
+        temp[z++] = elements[x++];
+    }
+
+    while(y<=r){
+        temp[z++] = elements[y++];
+    }
+
+    swap(elements, temp);
+    delete[] temp;
 }
 
 /* ************************************************************************** */

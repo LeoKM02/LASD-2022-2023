@@ -14,7 +14,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class Vector: virtual public ResizableContainer, virtual public SortableLinearContainer<Data> {
+class Vector: virtual public ResizableContainer,
+              virtual public SortableLinearContainer<Data> {
                 // Must extend ResizableContainer,
                 //             SortableLinearContainer<Data>
 protected:
@@ -51,10 +52,10 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  virtual Vector& operator=(const Vector&);
+  Vector& operator=(const Vector&);
 
   // Move assignment
-  virtual Vector& operator=(Vector&&) noexcept;
+  Vector& operator=(Vector&&) noexcept;
 
   /* ************************************************************************ */
 
@@ -66,43 +67,43 @@ public:
 
   // Specific member function (inherited from ClearableContainer)
 
-  inline virtual void Clear() override; // Override ClearableContainer member
+  inline void Clear() override; // Override ClearableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ResizableContainer)
 
-  inline virtual void Resize(const ulong) override; // Override ResizableContainer member
+  inline void Resize(const ulong) override; // Override ResizableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from TestableContainer)
 
-  inline virtual bool Exists(const Data&) const noexcept override; // Override TestableContainer member
+  inline bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
 
-  inline virtual const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
-  inline virtual Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
-  inline virtual const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
-  inline virtual Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
+  inline const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
+  inline Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
-  inline virtual const Data& Back() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
-  inline virtual Data& Back() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
+  inline const Data& Back() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
+  inline Data& Back() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from SortableLinearContainer)
 
-  inline virtual void Sort() noexcept override; // Override SortableLinearContainer member
+  inline void Sort() override; // Override SortableLinearContainer member
 
 protected:
 
-  virtual void QuickSort(const ulong, const ulong) noexcept;
-  virtual ulong Partiziona(const ulong, const ulong) noexcept;
+  void MergeSort(const ulong, const ulong);
+  void Merge(const ulong, const ulong, const ulong);
 
 };
 

@@ -5,22 +5,22 @@ namespace lasd {
 /* ************************************************************************** */
 
 template<typename Data>
-inline List<Data>::Node::Node(const Data& dat){
+List<Data>::Node::Node(const Data& dat){
     elem = dat;
 }
 
 template<typename Data>
-inline List<Data>::Node::Node(Data&& dat) noexcept {
+List<Data>::Node::Node(Data&& dat) noexcept {
     elem = std::move(dat);
 }
 
 template<typename Data>
-inline List<Data>::Node::Node(const Node& nod) {
+List<Data>::Node::Node(const Node& nod) {
     elem = nod.elem;
 }
 
 template<typename Data>
-inline List<Data>::Node::Node(Node&& nod) noexcept {
+List<Data>::Node::Node(Node&& nod) noexcept {
     std::swap(elem, node.elem);
     std::swap(next, node.next);
 }
@@ -72,7 +72,7 @@ List<Data>::~List() {
 }
 
 template<typename Data>
-inline List<Data>& List<Data>::operator=(const List& con){
+List<Data>& List<Data>::operator=(const List& con){
     List* temp = new List(con);
     std::swap(*temp, *this);
     delete temp;
@@ -80,7 +80,7 @@ inline List<Data>& List<Data>::operator=(const List& con){
 }
 
 template<typename Data>
-inline List<Data>& List<Data>::operator=(List&& con) noexcept {
+List<Data>& List<Data>::operator=(List&& con) noexcept {
     std::swap(head, con.head);
     std::swap(tail, con.tail);
     std::swap(size, con.size);
