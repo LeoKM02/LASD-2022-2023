@@ -10,7 +10,7 @@ inline List<Data>::Node::Node(const Data& dat){
 
 template<typename Data>
 inline List<Data>::Node::Node(Data&& dat) noexcept {
-    std::swap(elem, dat);
+    elem = std::move(dat);
 }
 
 template<typename Data>
@@ -20,7 +20,8 @@ inline List<Data>::Node::Node(const Node& nod) {
 
 template<typename Data>
 inline List<Data>::Node::Node(Node&& nod) noexcept {
-    elem = std::move(nod.elem);
+    std::swap(elem, node.elem);
+    std::swap(next, node.next);
 }
 
 template<typename Data>
@@ -147,7 +148,7 @@ inline void List<Data>::InsertAtFront(Data&& dat) noexcept {
 template<typename Data>
 inline void List<Data>::RemoveFromFront() {
     if(size == 0){
-        throw std::length_error;
+        throw std::length_error();
     }
     Node * temp = head->next;
     delete head;
@@ -161,7 +162,7 @@ inline void List<Data>::RemoveFromFront() {
 template<typename Data>
 inline Data List<Data>::FrontNRemove() {
     if(size == 0){
-        throw std::length_error;
+        throw std::length_error();
     }
 
     Data ret = head->elem;
@@ -281,7 +282,7 @@ inline bool List<Data>::Remove(const Data& dat) {
 template<typename Data>
 inline const Data& List<Data>::operator[](const ulong index) const {
     if(index >= size){
-        throw std::out_of_range;
+        throw std::out_of_range();
     }
 
     if(index == size - 1){
@@ -300,7 +301,7 @@ inline const Data& List<Data>::operator[](const ulong index) const {
 template<typename Data>
 inline Data& List<Data>::operator[](const ulong i) {
     if(index >= size){
-        throw std::out_of_range;
+        throw std::out_of_range();
     }
 
     if(index == size - 1){
@@ -319,7 +320,7 @@ inline Data& List<Data>::operator[](const ulong i) {
 template<typename Data>
 inline const Data& List<Data>::Front() const {
     if(size == 0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return head->elem;
 }
@@ -327,7 +328,7 @@ inline const Data& List<Data>::Front() const {
 template<typename Data>
 inline Data& List<Data>::Front() {
     if(size == 0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return head->elem;
 }
@@ -335,7 +336,7 @@ inline Data& List<Data>::Front() {
 template<typename Data>
 inline const Data& List<Data>::Back() const {
     if(size == 0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return tail->elem;
 }
@@ -343,7 +344,7 @@ inline const Data& List<Data>::Back() const {
 template<typename Data>
 inline Data& List<Data>::Back() {
     if(size == 0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return tail->elem;
 }

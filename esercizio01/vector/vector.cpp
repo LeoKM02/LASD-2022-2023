@@ -136,7 +136,7 @@ inline bool Vector<Data>::Exists(const Data& dat) const noexcept {
 template<typename Data>
 inline const Data& Vector<Data>::operator[](const ulong i) const {
     if(i>=size){
-        throw std::out_of_range;
+        throw std::out_of_range();
     }
     return elements[i];
 }
@@ -144,7 +144,7 @@ inline const Data& Vector<Data>::operator[](const ulong i) const {
 template<typename Data>
 inline Data& Vector<Data>::operator[](const ulong i) {
     if(i>=size){
-        throw std::out_of_range;
+        throw std::out_of_range();
     }
     return elements[i];
 }
@@ -152,7 +152,7 @@ inline Data& Vector<Data>::operator[](const ulong i) {
 template<typename Data>
 inline const Data& Vector<Data>::Front() const {
     if(size==0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return elements[0];
 }
@@ -160,7 +160,7 @@ inline const Data& Vector<Data>::Front() const {
 template<typename Data>
 inline Data& Vector<Data>::Front(){
     if(size==0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return elements[0];
 }
@@ -168,7 +168,7 @@ inline Data& Vector<Data>::Front(){
 template<typename Data>
 inline const Data& Vector<Data>::Back() const {
     if(size==0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return elements[size - 1];
 }
@@ -176,7 +176,7 @@ inline const Data& Vector<Data>::Back() const {
 template<typename Data>
 inline Data& Vector<Data>::Back(){
     if(size==0){
-        throw std::length_error;
+        throw std::length_error();
     }
     return elements[size - 1];
 }

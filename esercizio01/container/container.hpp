@@ -36,11 +36,11 @@ public:
 
   // Specific member functions
 
-  inline virtual bool Empty() const noexcept {
+  virtual bool Empty() const noexcept {
     return (size == 0);
   } // (concrete function should not throw exceptions)
 
-  inline virtual ulong Size() const noexcept {
+  virtual ulong Size() const noexcept {
     return size;
   } // (concrete function should not throw exceptions)
 

@@ -17,7 +17,7 @@ class TestableContainer: virtual public Container {
 
 protected:
 
-using Container::size;
+  using Container::size;
 
 public:
 

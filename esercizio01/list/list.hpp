@@ -15,62 +15,64 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class List: virtual public ClearableContainer, virtual public DictionaryContainer<Data>, virtual public LinearContainer<Data> {
+class List: virtual public ClearableContainer,
+            virtual public DictionaryContainer<Data>,
+            virtual public LinearContainer<Data> {
               // Must extend ClearableContainer,
               //             DictionaryContainer<Data>,
               //             LinearContainer<Data>
-protected:
+  protected:
 
-  using Container::size;
+    using Container::size;
 
-  struct Node {
+    struct Node {
 
-    // Data
+      // Data
+      // ...
+      Data elem;
+      Node * next = nullptr;
+
+      /* ********************************************************************** */
+
+      // Specific constructors
+      // ...
+      inline Node(const Data& dat);
+      inline Node(Data&&) noexcept;
+
+      /* ********************************************************************** */
+
+      // Copy constructor
+      // ...
+      inline Node(const Node& node);
+
+      // Move constructor
+      // ...
+      inline Node(Node&&) noexcept;
+
+      /* ********************************************************************** */
+
+      // Destructor
+      // ...
+      virtual ~Node() = default;
+
+      /* ********************************************************************** */
+
+      // Comparison operators
+      // ...
+      inline bool operator==(const Node&) const noexcept;
+      inline bool operator!=(const Node&) const noexcept;
+
+      /* ********************************************************************** */
+
+      // Specific member functions
+
+      // ...
+
+    };
+
     // ...
-    Data elem;
-    Node * next = nullptr;
-
-    /* ********************************************************************** */
-
-    // Specific constructors
-    // ...
-    inline Node(const Data& dat);
-    inline Node(Data&&) noexcept;
-
-    /* ********************************************************************** */
-
-    // Copy constructor
-    // ...
-    inline Node(const Node& node);
-
-    // Move constructor
-    // ...
-    inline Node(Node&&) noexcept;
-
-    /* ********************************************************************** */
-
-    // Destructor
-    // ...
-    virtual ~Node() = default;
-
-    /* ********************************************************************** */
-
-    // Comparison operators
-    // ...
-    inline bool operator==(const Node&) const noexcept;
-    inline bool operator!=(const Node&) const noexcept;
-
-    /* ********************************************************************** */
-
-    // Specific member functions
-
-    // ...
-
-  };
-
-  // ...
-  Node * head = nullptr;
-  Node * tail = nullptr;
+    Node * head = nullptr;
+    Node * tail = nullptr;
 
 public:
 
