@@ -83,7 +83,7 @@ public:
 
   // Specific constructor
   List(const MappableContainer<Data>&); // A list obtained from a MappableContainer
-  List(MutableMappableContainer<Data>&&) noexcept; // A list obtained from a MutableMappableContainer
+  List(MutableMappableContainer<Data>&&); // A list obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
@@ -91,7 +91,7 @@ public:
   List(const List&);
 
   // Move constructor
-  List(List&&);
+  List(List&&) noexcept;
 
   /* ************************************************************************ */
 
@@ -163,6 +163,12 @@ public:
 
   using typename FoldableContainer<Data>::FoldFunctor;
 
+  // Specific member function (inherited from FoldableContainer)
+
+  inline virtual void Fold(FoldFunctor, void *) const override; // Override FoldableContainer member
+
+  /* ************************************************************************ */
+
   // Specific member function (inherited from PreOrderFoldableContainer)
 
   inline virtual void PreOrderFold(FoldFunctor, void *) const override; // Override PreOrderFoldableContainer member
@@ -179,6 +185,12 @@ public:
 
   /* ************************************************************************ */
 
+  // Specific member function (inherited from MappableContainer)
+
+  inline virtual void Map(MapFunctor) const override; // Override MappableContainer member
+  
+  /* ************************************************************************ */
+
   // Specific member function (inherited from PreOrderMappableContainer)
 
   inline virtual void PreOrderMap(MapFunctor) const override; // Override PreOrderMappableContainer member
@@ -192,6 +204,10 @@ public:
   /* ************************************************************************ */
 
   using typename MutableMappableContainer<Data>::MutableMapFunctor;
+
+  // Specific member function (inherited from MutableMappableContainer)
+
+  inline virtual void Map(MutableMapFunctor) override; // Override MutableMappableContainer member
 
   /* ************************************************************************ */
 
@@ -209,18 +225,21 @@ protected:
 
   // Auxiliary member functions (for PreOrderFoldableContainer & PostOrderFoldableContainer)
 
+  inline virtual void PreOrderFold(FoldFunctor, void *, Node*) const; // Accessory function executing from one point of the list onwards
   inline virtual void PostOrderFold(FoldFunctor, void *, Node*) const; // Accessory function executing from one point of the list onwards
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for PreOrderMappableContainer & PostOrderMappableContainer)
 
+  inline virtual void PreOrderMap(MapFunctor, Node*) const; // Accessory function executing from one point of the list onward
   inline virtual void PostOrderMap(MapFunctor, Node*) const; // Accessory function executing from one point of the list onward
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for MutablePreOrderMappableContainer & MutablePostOrderMappableContainer)
 
+  inline virtual void PreOrderMap(MutableMapFunctor, Node*); // Accessory function executing from one point of the list onward
   inline virtual void PostOrderMap(MutableMapFunctor, Node*); // Accessory function executing from one point of the list onward
 
   /* ************************************************************************ */

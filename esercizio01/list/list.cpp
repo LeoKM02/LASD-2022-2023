@@ -1,3 +1,4 @@
+#include "list.hpp"
 
 namespace lasd {
 
@@ -26,24 +27,25 @@ inline List<Data>::Node::Node(Node&& nod) noexcept {
 
 template<typename Data>
 inline bool List<Data>::Node::operator==(const Node& nod) const noexcept{
-    return (elem == nod.elem);
+    if(elem==nod.elem && next==nod.next) return true;
+    return false;
 }
 
 template<typename Data>
 inline bool List<Data>::Node::operator!=(const Node& nod) const noexcept{
-    return (elem != nod.elem);
+    return (! operator==(nod));
 }
 
 template<typename Data>
-List<Data>::List(const MappableContainer<Data>& con){
-    con.Map([this, temp](const Data& dat){
+List<Data>::List(const MappableContainer<Data>& con) {
+    con.Map([this](const Data& dat){
         InsertAtBack(dat);
     });
 }
 
 template<typename Data>
-List<Data>::List(MutableMappableContainer<Data>&& con) noexcept {
-    con.Map([this, temp](Data& dat){
+List<Data>::List(MutableMappableContainer<Data>&& con) {
+    con.Map([this](Data& dat){
         InsertAtBack(std::move(dat));
     });
 }
@@ -58,7 +60,7 @@ List<Data>::List(const List& con) {
 }
 
 template<typename Data>
-List<Data>::List(List&& con) {
+List<Data>::List(List&& con) noexcept{
     std::swap(head, con.head);
     std::swap(tail, con.tail);
     std::swap(size, con.size);
@@ -87,7 +89,7 @@ inline List<Data>& List<Data>::operator=(List&& con) noexcept {
 
 template<typename Data>
 inline bool List<Data>::operator==(const List& con) const noexcept {
-    if(size == con.size){
+    if(Size() == con.Size()){
         Node* temp = head;
         Node* tempcmp = con.head;
         while(temp != nullptr){
@@ -104,26 +106,14 @@ inline bool List<Data>::operator==(const List& con) const noexcept {
 
 template<typename Data>
 inline bool List<Data>::operator!=(const List& con) const noexcept {
-    if(size == con.size){
-        Node* temp = head;
-        Node* tempcmp = con.head;
-        while(temp != nullptr){
-            if(temp->elem != tempcmp->elem){
-                return true;
-            }
-            temp = temp->next;
-            tempcmp = tempcmp->next;
-        }
-        return false;
-    }
-    return true;
+    return (! operator==(con));
 }
 
 template<typename Data>
 inline void List<Data>::InsertAtFront(const Data& dat) {
     Node* temp = new Node(dat);
     if(head != nullptr){
-        temp->next = head->next;
+        temp->next = head;
     }
     else{
         tail = temp;
@@ -147,7 +137,7 @@ inline void List<Data>::InsertAtFront(Data&& dat) noexcept {
 
 template<typename Data>
 inline void List<Data>::RemoveFromFront() {
-    if(size == 0){
+    if(Size() == 0){
         throw std::length_error();
     }
     Node * temp = head->next;
@@ -161,20 +151,12 @@ inline void List<Data>::RemoveFromFront() {
 
 template<typename Data>
 inline Data List<Data>::FrontNRemove() {
-    if(size == 0){
+    if(Size() == 0){
         throw std::length_error();
     }
 
-    Data ret = head->elem;
-
-    Node * temp = head->next;
-    delete head;
-    head = temp;
-    if(head == nullptr){
-        tail = nullptr;
-    }
-    --size;
-
+    Data ret = Front();
+    RemoveFromFront();
     return ret;
 }
 
@@ -206,15 +188,8 @@ inline void List<Data>::InsertAtBack(Data&& dat) noexcept {
 
 template<typename Data>
 inline void List<Data>::Clear() {
-    if(head != nullptr){
-        Node * temp;
-        while(head != nullptr){
-            temp = head;
-            head = head->next;
-            delete temp;
-        }
-        tail = nullptr;
-        size = 0;
+    while(head != nullptr){
+        RemoveFromFront();
     }
 }
 
@@ -254,44 +229,54 @@ inline bool List<Data>::Insert(Data&& dat) {
 
 template<typename Data>
 inline bool List<Data>::Remove(const Data& dat) {
-    if(head != nullptr){
-        if(head->elem == dat){
-            RemoveFromFront(dat);
-            return true;
-        }
+    bool res = false;
+    
+    while(head!=nullptr && head->elem==dat){
+        RemoveFromFront();
+        res = true;
+    }
 
+    if(head != nullptr){
         Node* curr = head->next;
         Node* prev = head;
+        Node* temp = nullptr;
+
         while(curr != nullptr){
             if(curr->elem == dat){
+                temp = curr;
                 prev->next = curr->next;
-                if(curr->next == nullptr){
+                curr = curr->next;
+                res = true;
+                if(tmp == tail){
                     tail = prev;
                 }
-                delete curr;
+                delete tmp;
                 --size;
-                return true;
             }
-            prev = curr;
-            curr = curr->next;
+            else{
+                prev = curr;
+                curr = curr->next;
+            }
+            
         }
     }
-    return false;
+
+    return res;
 }
 
 template<typename Data>
 inline const Data& List<Data>::operator[](const ulong index) const {
-    if(index >= size){
+    if(index >= Size()){
         throw std::out_of_range();
     }
 
-    if(index == size - 1){
+    if(index == Size() - 1){
         return tail->elem;
     }
 
     Node* temp = head;
     ulong i = 0;
-    while(i != index){
+    while(i < index){
         temp = temp->next;
         ++i;
     }
@@ -299,18 +284,18 @@ inline const Data& List<Data>::operator[](const ulong index) const {
 }
 
 template<typename Data>
-inline Data& List<Data>::operator[](const ulong i) {
-    if(index >= size){
+inline Data& List<Data>::operator[](const ulong index) {
+    if(index >= Size()){
         throw std::out_of_range();
     }
 
-    if(index == size - 1){
+    if(index == Size() - 1){
         return tail->elem;
     }
 
     Node* temp = head;
     ulong i = 0;
-    while(i != index){
+    while(i < index){
         temp = temp->next;
         ++i;
     }
@@ -319,7 +304,7 @@ inline Data& List<Data>::operator[](const ulong i) {
 
 template<typename Data>
 inline const Data& List<Data>::Front() const {
-    if(size == 0){
+    if(Size() == 0){
         throw std::length_error();
     }
     return head->elem;
@@ -327,7 +312,7 @@ inline const Data& List<Data>::Front() const {
 
 template<typename Data>
 inline Data& List<Data>::Front() {
-    if(size == 0){
+    if(Size() == 0){
         throw std::length_error();
     }
     return head->elem;
@@ -335,7 +320,7 @@ inline Data& List<Data>::Front() {
 
 template<typename Data>
 inline const Data& List<Data>::Back() const {
-    if(size == 0){
+    if(Size() == 0){
         throw std::length_error();
     }
     return tail->elem;
@@ -343,20 +328,22 @@ inline const Data& List<Data>::Back() const {
 
 template<typename Data>
 inline Data& List<Data>::Back() {
-    if(size == 0){
+    if(Size() == 0){
         throw std::length_error();
     }
     return tail->elem;
 }
 
 // Inherited member functions
+
+template<typename Data>
+inline void List<Data>::Fold(FoldFunctor fun, void * ret) const {
+    PreOrderFold(fun, ret);
+}
+
 template<typename Data>
 inline void List<Data>::PreOrderFold(FoldFunctor fun, void * ret) const {
-    Node * temp = head;
-    while(temp != nullptr){
-        fun(temp->elem, ret);
-        temp = temp->next;
-    }
+    PreOrderFold(fun, ret, head);
 }
 
 template<typename Data>
@@ -365,12 +352,13 @@ inline void List<Data>::PostOrderFold(FoldFunctor fun, void * ret) const {
 }
 
 template<typename Data>
+inline void List<Data>::Map(MapFunctor fun) const {
+    PreOrderMap(fun);
+}
+
+template<typename Data>
 inline void List<Data>::PreOrderMap(MapFunctor fun) const {
-    Node * temp = head;
-    while(temp != nullptr){
-        fun(temp->elem);
-        temp = temp->next;
-    }
+    PreOrderFold(fun, head);
 }
 
 template<typename Data>
@@ -379,12 +367,13 @@ inline void List<Data>::PostOrderMap(MapFunctor fun) const {
 }
 
 template<typename Data>
+inline void List<Data>::Map(MutableMapFunctor fun) {
+    PreOrderMap(fun);
+}
+
+template<typename Data>
 inline void List<Data>::PreOrderMap(MutableMapFunctor fun) {
-    Node * temp = head;
-    while(temp != nullptr){
-        fun(temp->elem);
-        temp = temp->next;
-    }
+    PreOrderMap(fun, head);
 }
 
 template<typename Data>
@@ -393,11 +382,28 @@ inline void List<Data>::PostOrderMap(MutableMapFunctor fun) {
 }
 
 // Auxiliary member functions
+
+template <typename Data>
+inline void List<Data>::PreOrderFold(FoldFunctor fun, void * ret, Node * nod) const {
+    if(nod != nullptr){
+        fun(nod->elem, ret);
+        PostOrderFold(fun, ret, nod->next);
+    }
+}
+
 template<typename Data>
 inline void List<Data>::PostOrderFold(FoldFunctor fun, void * ret, Node * nod) const {
     if(nod != nullptr){
         PostOrderFold(fun, ret, nod->next);
         fun(nod->elem, ret);
+    }
+}
+
+template <typename Data>
+inline void List<Data>::PreOrderMap(MapFunctor fun, Node * nod) const {
+    if(nod != nullptr){
+        fun(nod->elem);
+        PostOrderMap(fun, nod->next);
     }
 }
 
@@ -409,7 +415,15 @@ inline void List<Data>::PostOrderMap(MapFunctor fun, Node * nod) const {
     }
 }
 
-template<typename Data>
+template <typename Data>
+inline void List<Data>::PreOrderMap(MutableMapFunctor fun, Node * nod) {
+    if(nod != nullptr){
+        fun(nod->elem);
+        PostOrderMap(fun, nod->next);
+    }
+}
+
+template <typename Data>
 inline void List<Data>::PostOrderMap(MutableMapFunctor fun, Node * nod) {
     if(nod != nullptr){
         PostOrderMap(fun, nod->next);
