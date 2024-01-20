@@ -14,24 +14,26 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class StackVec: virtual public Stack<Data>, virtual public Vector<Data> {
+class StackVec: virtual public Stack<Data>,
+                virtual protected Vector<Data> {
                   // Must extend Stack<Data>,
                   //             Vector<Data>
 protected:
 
   using Container::size;
   using Vector<Data>::elements;
+  ulong topIndex = 0;
 
 public:
 
   // Default constructor
-  StackVec() = default;
+  StackVec() : Vector<Data>(10) {};
 
   /* ************************************************************************ */
 
   // Specific constructor
-  StackVec(const MappableContainer&); // A stack obtained from a MappableContainer
-  StackVec(MutableMappableContainer&&) noexcept; // A stack obtained from a MutableMappableContainer
+  StackVec(const MappableContainer<Data>&); // A stack obtained from a MappableContainer
+  StackVec(MutableMappableContainer<Data>&&) noexcept; // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
@@ -64,33 +66,33 @@ public:
 
   // Specific member functions (inherited from Stack)
 
-  inline virtual const Data& Top() const override; // (non-mutable version; concrete function must throw std::length_error when empty)
-  inline virtual Data& Top() override; // (mutable version; concrete function must throw std::length_error when empty)
-  inline virtual void Pop() override; // (concrete function must throw std::length_error when empty)
-  inline virtual Data TopNPop() override; // (concrete function must throw std::length_error when empty)
-  inline virtual void Push(const Data&) override; // Copy of the value
-  inline virtual void Push(Data&&) noexcept override; // Move of the value
+  inline const Data& Top() const override; // (non-mutable version; concrete function must throw std::length_error when empty)
+  inline Data& Top() override; // (mutable version; concrete function must throw std::length_error when empty)
+  inline void Pop() override; // (concrete function must throw std::length_error when empty)
+  inline Data TopNPop() override; // (concrete function must throw std::length_error when empty)
+  inline void Push(const Data&) override; // Copy of the value
+  inline void Push(Data&&) noexcept override; // Move of the value
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
-  inline virtual bool Empty() const noexcept override; // Override Container member
+  inline bool Empty() const noexcept override; // Override Container member
 
-  inline virtual ulong Size() const noexcept override; // Override Container member
+  inline ulong Size() const noexcept override; // Override Container member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
 
-  inline virtual void Clear() override; // Override ClearableContainer member
+  inline void Clear() override; // Override ClearableContainer member
 
 protected:
 
   // Auxiliary member functions
 
-  type Expand();
-  type Reduce();
+  inline void Expand();
+  inline void Reduce();
 
 };
 

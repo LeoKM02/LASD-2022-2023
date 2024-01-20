@@ -22,7 +22,7 @@ Vector<Data>::Vector(const MappableContainer<Data>& con){
 }
 
 template<typename Data>
-Vector<Data>::Vector(MutableMappableContainer<Data>&& con) {
+Vector<Data>::Vector(MutableMappableContainer<Data>&& con) noexcept {
     size = con.Size();
     elements = new Data[size]{};
     ulong i = 0;
@@ -188,7 +188,7 @@ inline void Vector<Data>::MergeSort(ulong p, ulong r){
 template<typename Data>
 inline void Vector<Data>::Merge(ulong p, ulong q, ulong r){
     ulong x, y, z;
-    Data* temp = new Data[r-p]{};
+    Data* temp = new Data[r-p+1]{};
     x = p;
     y = q+1;
     z = 0;

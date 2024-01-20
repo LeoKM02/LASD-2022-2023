@@ -62,9 +62,7 @@ inline void StackLst<Data>::Pop(){
 
 template<typename Data>
 inline Data StackLst<Data>::TopNPop(){
-    Data top = Top();
-    Pop();
-    return top;
+    return FrontNRemove();
 } // (concrete function must throw std::length_error when empty)
 
 template<typename Data>
@@ -74,7 +72,7 @@ inline void StackLst<Data>::Push(const Data& dat){
 
 template<typename Data>
 inline void StackLst<Data>::Push(Data&& dat) noexcept{
-    InsertAtFront(std::move(dat));
+    InsertAtFront(dat);
 } // Move of the value
 
 /* ************************************************************************** */

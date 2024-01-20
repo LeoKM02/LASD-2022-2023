@@ -62,16 +62,7 @@ inline void QueueLst<Data>::Dequeue() {
 
 template<typename Data>
 inline Data QueueLst<Data>::HeadNDequeue() {
-    Data head = Head();
-    Dequeue();
-    return head;
-}
-
-template<typename Data>
-inline Data QueueLst<Data>::HeadNDequeue() {
-    Data head = Head();
-    Dequeue();
-    return head;
+    return FrontNRemove();
 }
 
 template<typename Data>
@@ -81,7 +72,7 @@ inline void QueueLst<Data>::Enqueue(const Data& dat) {
 
 template<typename Data>
 inline void QueueLst<Data>::Enqueue(Data&& dat) noexcept {
-    InsertAtBack(std::move(dat));
+    InsertAtBack(dat);
 }
 
 /* ************************************************************************** */
