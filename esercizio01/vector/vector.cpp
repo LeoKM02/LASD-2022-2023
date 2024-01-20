@@ -195,20 +195,26 @@ inline void Vector<Data>::Merge(ulong p, ulong q, ulong r){
 
     while(x<=q && y<=r){
         if(elements[x] < elements[y]){
-            temp[z] = elements[x++];
+            std::swap(temp[z], elements[x]);
+            ++x;
         }
         else{
-            temp[z] = elements[y++];
+            std::swap(temp[z], elements[y]);
+            ++y;
         }
         ++z;
     }
 
     while(x<=q){
-        temp[z++] = elements[x++];
+        std::swap(temp[z], elements[x]);
+        ++z;
+        ++x;
     }
 
     while(y<=r){
-        temp[z++] = elements[y++];
+        std::swap(temp[z], elements[y]);
+        ++z;
+        ++x;
     }
 
     swap(elements, temp);

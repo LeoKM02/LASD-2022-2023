@@ -124,19 +124,19 @@ inline ulong StackVec<Data>::Size() const noexcept {
 template <typename Data>
 inline void StackVec<Data>::Clear() {
     topIndex = 0;
-    Vector<Data>::Resize(10);
+    Vector<Data>::Resize(DEFAULT_CAPACITY);
 }
 
 template <typename Data>
 inline void StackVec<Data>::Expand() {
-    if(topIndex == size){
+    if(topIndex >= size){
         Vector<Data>::Resize(size * 2);
     }
 }
 
 template <typename Data>
 inline void StackVec<Data>::Reduce() {
-    if(size!=10 && topIndex==size/4){
+    if(size!=DEFAULT_CAPACITY && topIndex==size/4){
         Vector<Data>::Resize(size / 2);
     }
 }

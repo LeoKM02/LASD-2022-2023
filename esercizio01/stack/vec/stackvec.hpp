@@ -20,6 +20,8 @@ class StackVec: virtual public Stack<Data>,
                   //             Vector<Data>
 protected:
 
+  const ulong DEFAULT_CAPACITY = 10;
+
   using Container::size;
   using Vector<Data>::elements;
   ulong topIndex = 0;
@@ -27,7 +29,7 @@ protected:
 public:
 
   // Default constructor
-  StackVec() : Vector<Data>(10) {};
+  StackVec() : Vector<Data>(DEFAULT_CAPACITY) {};
 
   /* ************************************************************************ */
 

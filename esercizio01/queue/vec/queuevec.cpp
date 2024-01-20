@@ -5,7 +5,7 @@ namespace lasd {
 
 template <typename Data>
 QueueVec<Data>::QueueVec() {
-    Vector<Data>(10);
+    Vector<Data>(DEFAULT_CAPACITY);
     sentinel = size-1;
 }
 
@@ -136,12 +136,18 @@ inline Data QueueVec<Data>::HeadNDequeue() {
 
 template <typename Data>
 inline void QueueVec<Data>::Enqueue(const Data& dat) {
-    if(sentinel == )
+    Expand();
+    elements[tail] = dat;
+    tail = (tail+1)%size;
+
 }
 
 template <typename Data>
 inline void QueueVec<Data>::Enqueue(Data&& dat) noexcept {
-    
+    Expand();
+    elements[tail]= std::move(dat);
+    tail = (tail+1)%size;
+
 }
 
 template <typename Data>
@@ -161,17 +167,59 @@ inline ulong QueueVec<Data>::Size() const noexcept {
 
 template <typename Data>
 inline void QueueVec<Data>::Clear() {
-    //
+    Vector<Data>::Clear();
+    size = DEFAULT_CAPACITY;
+    elements = new Data[size]{};
+    head = 0;
+    tail = 0;
+    sentinel = size - 1;
 }
 
 template <typename Data>
 inline void QueueVec<Data>::Expand() {
-    //
+    if(sentinel == tail){
+        if(head <= tail){
+            Vector<Data>::Resize(size*2);
+            sentinel = (head-1)%size;
+        }
+        else{
+            ulong newsize = size*2;
+
+            Data* temp = new Data[newsize] {};
+            ulong i, j;
+            for(i=head, j=0; i!=tail; i=(i+1)%size, ++j){
+                std::swap(elements[i], temp[j]);
+            }
+            std::swap(elements, temp);
+            delete[] temp;
+
+            size = newsize;
+            head = 0;
+            tail = j;
+            sentinel = size-1;
+            
+        }
+    }
 }
 
 template <typename Data>
 inline void QueueVec<Data>::Reduce() {
-    //
+    if(Size() <= size/4){
+        ulong newsize = size/2;
+
+        Data* temp = new Data[newsize] {};
+        ulong i, j;
+        for(i=head, j=0; i!=tail; i=(i+1)%size, ++j){
+            std::swap(elements[i], temp[j]);
+        }
+        std::swap(elements, temp);
+        delete[] temp;
+
+        size = newsize;
+        head = 0;
+        tail = j;
+        sentinel = size-1;
+    }
 }    
 
 /* ************************************************************************** */
