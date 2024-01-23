@@ -20,7 +20,7 @@ class QueueVec: virtual public Queue<Data>,
                   //             Vector<Data>
 protected:
 
-  const ulong DEFAULT_CAPACITY = 10;
+  static const ulong DEFAULT_CAPACITY = 10;
 
   using Container::size;
   using Vector<Data>::elements;

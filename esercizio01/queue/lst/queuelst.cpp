@@ -4,26 +4,6 @@ namespace lasd {
 /* ************************************************************************** */
 
 template<typename Data>
-QueueLst<Data>::QueueLst(const MappableContainer<Data>& con){
-    List<Data>::List(con);
-}
-
-template<typename Data>
-QueueLst<Data>::QueueLst(MutableMappableContainer<Data>&& con) noexcept {
-    List<Data>::List(std::move(con));
-}
-
-template<typename Data>
-QueueLst<Data>::QueueLst(const QueueLst& con){
-    List<Data>::List(con);
-}
-
-template<typename Data>
-QueueLst<Data>::QueueLst(QueueLst&& con) noexcept {
-    List<Data>::List(std::move(con));
-}
-
-template<typename Data>
 QueueLst<Data>& QueueLst<Data>::operator=(const QueueLst& con){
     List<Data>::operator=(con);
     return *this;
@@ -47,32 +27,32 @@ inline bool QueueLst<Data>::operator!=(const QueueLst& con) const noexcept{
 
 template<typename Data>
 inline const Data& QueueLst<Data>::Head() const{
-    return Front();
+    return List<Data>::Front();
 }
 
 template<typename Data>
 inline Data& QueueLst<Data>::Head() {
-    return Front();
+    return List<Data>::Front();
 }
 
 template<typename Data>
 inline void QueueLst<Data>::Dequeue() {
-    RemoveFromFront();
+    List<Data>::RemoveFromFront();
 }
 
 template<typename Data>
 inline Data QueueLst<Data>::HeadNDequeue() {
-    return FrontNRemove();
+    return List<Data>::FrontNRemove();
 }
 
 template<typename Data>
 inline void QueueLst<Data>::Enqueue(const Data& dat) {
-    InsertAtBack(dat);
+    List<Data>::InsertAtBack(dat);
 }
 
 template<typename Data>
 inline void QueueLst<Data>::Enqueue(Data&& dat) noexcept {
-    InsertAtBack(dat);
+    List<Data>::InsertAtBack(dat);
 }
 
 /* ************************************************************************** */

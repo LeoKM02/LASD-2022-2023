@@ -322,6 +322,8 @@ void stestListString(uint& testnum, uint& testerr) {
 
     coplst = move(lst);
     FoldPreOrder(loctestnum, loctesterr, coplst, true, &FoldStringConcatenate, string("?"), string("?CB A"));
+    FoldPostOrder(loctestnum, loctesterr, coplst, true, &FoldStringConcatenate, string("?"), string("?AB C"));
+
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;

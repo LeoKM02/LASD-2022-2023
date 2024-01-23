@@ -33,14 +33,14 @@ Vector<Data>::Vector(MutableMappableContainer<Data>&& con) noexcept {
 }
 
 template<typename Data>
-Vector<Data>::Vector(const Vector& con) {
+Vector<Data>::Vector(const Vector<Data>& con) {
     size = con.size;
     elements = new Data[size]{};
     std::copy(con.elements, con.elements + con.size, elements);
 }
 
 template<typename Data>
-Vector<Data>::Vector(Vector&& con) noexcept {
+Vector<Data>::Vector(Vector<Data>&& con) noexcept {
     std::swap(con.size, size);
     std::swap(con.elements, elements);
 }
@@ -102,7 +102,7 @@ inline void Vector<Data>::Resize(const ulong newsize) {
             std::swap(temp[i], elements[i]);
             ++i;
         }
-        swap(elements, temp);
+        std::swap(elements, temp);
         delete[] temp;
         size = newsize;
     }
@@ -124,7 +124,7 @@ inline bool Vector<Data>::Exists(const Data& dat) const noexcept {
 template<typename Data>
 inline const Data& Vector<Data>::operator[](const ulong i) const {
     if(i>=Size()){
-        throw std::out_of_range();
+        throw std::out_of_range("Index out of range!");
     }
     return elements[i];
 }
@@ -132,39 +132,39 @@ inline const Data& Vector<Data>::operator[](const ulong i) const {
 template<typename Data>
 inline Data& Vector<Data>::operator[](const ulong i) {
     if(i>=Size()){
-        throw std::out_of_range();
+        throw std::out_of_range("Index out of range!");
     }
     return elements[i];
 }
 
 template<typename Data>
 inline const Data& Vector<Data>::Front() const {
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return elements[0];
 }
 
 template<typename Data>
 inline Data& Vector<Data>::Front(){
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return elements[0];
 }
 
 template<typename Data>
 inline const Data& Vector<Data>::Back() const {
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return elements[Size() - 1];
 }
 
 template<typename Data>
 inline Data& Vector<Data>::Back(){
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return elements[Size() - 1];
 }
@@ -195,29 +195,23 @@ inline void Vector<Data>::Merge(ulong p, ulong q, ulong r){
 
     while(x<=q && y<=r){
         if(elements[x] < elements[y]){
-            std::swap(temp[z], elements[x]);
-            ++x;
+            temp[z] = elements[x++];
         }
         else{
-            std::swap(temp[z], elements[y]);
-            ++y;
+            temp[z] = elements[y++];
         }
         ++z;
     }
 
     while(x<=q){
-        std::swap(temp[z], elements[x]);
-        ++z;
-        ++x;
+        temp[z++] = elements[x++];
     }
 
     while(y<=r){
-        std::swap(temp[z], elements[y]);
-        ++z;
-        ++x;
+        temp[z++] = elements[y++];
     }
 
-    swap(elements, temp);
+    std::swap(elements, temp);
     delete[] temp;
 }
 

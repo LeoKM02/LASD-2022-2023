@@ -4,26 +4,6 @@ namespace lasd {
 /* ************************************************************************** */
 
 template<typename Data>
-StackLst<Data>::StackLst(const MappableContainer<Data>& con){
-    List<Data>::List(con);
-}
-
-template<typename Data>
-StackLst<Data>::StackLst(MutableMappableContainer<Data>&& con) noexcept {
-    List<Data>::List(std::move(con));
-}
-
-template<typename Data>
-StackLst<Data>::StackLst(const StackLst& con){
-    List<Data>::List(con);
-}
-
-template<typename Data>
-StackLst<Data>::StackLst(StackLst&& con) noexcept {
-    List<Data>::List(std::move(con));
-}
-
-template<typename Data>
 StackLst<Data>& StackLst<Data>::operator=(const StackLst& con){
     List<Data>::operator=(con);
     return *this;
@@ -47,32 +27,32 @@ inline bool StackLst<Data>::operator!=(const StackLst& con) const noexcept{
 
 template<typename Data>
 inline const Data& StackLst<Data>::Top() const{
-    return Front();
+    return List<Data>::Front();
 } // (non-mutable version; concrete function must throw std::length_error when empty)
 
 template<typename Data>
 inline Data& StackLst<Data>::Top(){
-    return Front();
+    return List<Data>::Front();
 } // (mutable version; concrete function must throw std::length_error when empty)
 
 template<typename Data>
 inline void StackLst<Data>::Pop(){
-    RemoveFromFront();
+    List<Data>::RemoveFromFront();
 } // (concrete function must throw std::length_error when empty)
 
 template<typename Data>
 inline Data StackLst<Data>::TopNPop(){
-    return FrontNRemove();
+    return List<Data>::FrontNRemove();
 } // (concrete function must throw std::length_error when empty)
 
 template<typename Data>
 inline void StackLst<Data>::Push(const Data& dat){
-    InsertAtFront(dat);
+    List<Data>::InsertAtFront(dat);
 } // Copy of the value
 
 template<typename Data>
 inline void StackLst<Data>::Push(Data&& dat) noexcept{
-    InsertAtFront(dat);
+    List<Data>::InsertAtFront(dat);
 } // Move of the value
 
 /* ************************************************************************** */

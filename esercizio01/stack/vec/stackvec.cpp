@@ -22,14 +22,12 @@ inline StackVec<Data>::StackVec(MutableMappableContainer<Data>&& con) noexcept {
 }
 
 template <typename Data>
-inline StackVec<Data>::StackVec(const StackVec& con) {
-    Vector<Data>(con);
+inline StackVec<Data>::StackVec(const StackVec<Data>& con) : Vector<Data>(con) {
     topIndex == con.topIndex;
 }
 
 template <typename Data>
-inline StackVec<Data>::StackVec(StackVec&& con) noexcept {
-    Vector<Data>(con);
+inline StackVec<Data>::StackVec(StackVec<Data>&& con) noexcept : Vector<Data>(std::move(con)){
     std::swap(topIndex, con.topIndex);
 }
 
@@ -68,7 +66,7 @@ inline bool StackVec<Data>::operator!=(const StackVec<Data>& con) const noexcept
 template <typename Data>
 inline const Data& StackVec<Data>::Top() const {
     if(Empty()){
-        throw std::length_error();
+        throw std::length_error("Empty container!");
     }
     return elements[Size()-1];
 }
@@ -76,7 +74,7 @@ inline const Data& StackVec<Data>::Top() const {
 template <typename Data>
 inline Data& StackVec<Data>::Top() {
     if(Empty()){
-        throw std::length_error();
+        throw std::length_error("Empty container!");
     }
     return elements[Size()-1];
 }
@@ -84,7 +82,7 @@ inline Data& StackVec<Data>::Top() {
 template <typename Data>
 inline void StackVec<Data>::Pop() {
     if(Empty()){
-        throw std::length_error();
+        throw std::length_error("Empty container!");
     }
     --topIndex;
     Reduce();
@@ -93,7 +91,7 @@ inline void StackVec<Data>::Pop() {
 template <typename Data>
 inline Data StackVec<Data>::TopNPop() {
     if(Empty()){
-        throw std::length_error();
+        throw std::length_error("Empty container!");
     }
     return elements[--topIndex];
     Reduce();

@@ -21,8 +21,8 @@ List<Data>::Node::Node(const Node& nod) {
 
 template<typename Data>
 List<Data>::Node::Node(Node&& nod) noexcept {
-    std::swap(elem, node.elem);
-    std::swap(next, node.next);
+    std::swap(elem, nod.elem);
+    std::swap(next, nod.next);
 }
 
 template<typename Data>
@@ -36,6 +36,8 @@ inline bool List<Data>::Node::operator!=(const Node& nod) const noexcept{
     return (! operator==(nod));
 }
 
+/*----------------------------------------------------------------------------------------*/
+
 template<typename Data>
 List<Data>::List(const MappableContainer<Data>& con) {
     con.Map([this](const Data& dat){
@@ -44,7 +46,7 @@ List<Data>::List(const MappableContainer<Data>& con) {
 }
 
 template<typename Data>
-List<Data>::List(MutableMappableContainer<Data>&& con) {
+List<Data>::List(MutableMappableContainer<Data>&& con) noexcept {
     con.Map([this](Data& dat){
         InsertAtBack(std::move(dat));
     });
@@ -73,7 +75,7 @@ List<Data>::~List() {
 
 template<typename Data>
 List<Data>& List<Data>::operator=(const List& con){
-    List* temp = new List(con);
+    List* temp = new List<Data>(con);
     std::swap(*temp, *this);
     delete temp;
     return *this;
@@ -137,12 +139,13 @@ inline void List<Data>::InsertAtFront(Data&& dat) noexcept {
 
 template<typename Data>
 inline void List<Data>::RemoveFromFront() {
-    if(Size() == 0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
-    Node * temp = head->next;
-    delete head;
-    head = temp;
+
+    Node* temp = head;
+    head = head->next;
+    delete temp;
     if(head == nullptr){
         tail = nullptr;
     }
@@ -151,8 +154,8 @@ inline void List<Data>::RemoveFromFront() {
 
 template<typename Data>
 inline Data List<Data>::FrontNRemove() {
-    if(Size() == 0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
 
     Data ret = Front();
@@ -217,7 +220,7 @@ inline bool List<Data>::Insert(const Data& dat) {
 }
 
 template<typename Data>
-inline bool List<Data>::Insert(Data&& dat) {
+inline bool List<Data>::Insert(Data&& dat) noexcept{
     if(Exists(dat)){
         return false;
     }
@@ -247,10 +250,10 @@ inline bool List<Data>::Remove(const Data& dat) {
                 prev->next = curr->next;
                 curr = curr->next;
                 res = true;
-                if(tmp == tail){
+                if(temp == tail){
                     tail = prev;
                 }
-                delete tmp;
+                delete temp;
                 --size;
             }
             else{
@@ -267,7 +270,7 @@ inline bool List<Data>::Remove(const Data& dat) {
 template<typename Data>
 inline const Data& List<Data>::operator[](const ulong index) const {
     if(index >= Size()){
-        throw std::out_of_range();
+        throw std::out_of_range("Index out of bounds!");
     }
 
     if(index == Size() - 1){
@@ -286,7 +289,7 @@ inline const Data& List<Data>::operator[](const ulong index) const {
 template<typename Data>
 inline Data& List<Data>::operator[](const ulong index) {
     if(index >= Size()){
-        throw std::out_of_range();
+        throw std::out_of_range("Index out of bounds!");
     }
 
     if(index == Size() - 1){
@@ -304,32 +307,32 @@ inline Data& List<Data>::operator[](const ulong index) {
 
 template<typename Data>
 inline const Data& List<Data>::Front() const {
-    if(Size() == 0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return head->elem;
 }
 
 template<typename Data>
 inline Data& List<Data>::Front() {
-    if(Size() == 0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return head->elem;
 }
 
 template<typename Data>
 inline const Data& List<Data>::Back() const {
-    if(Size() == 0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return tail->elem;
 }
 
 template<typename Data>
 inline Data& List<Data>::Back() {
-    if(Size() == 0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return tail->elem;
 }
@@ -358,7 +361,7 @@ inline void List<Data>::Map(MapFunctor fun) const {
 
 template<typename Data>
 inline void List<Data>::PreOrderMap(MapFunctor fun) const {
-    PreOrderFold(fun, head);
+    PreOrderMap(fun, head);
 }
 
 template<typename Data>
@@ -387,7 +390,7 @@ template <typename Data>
 inline void List<Data>::PreOrderFold(FoldFunctor fun, void * ret, Node * nod) const {
     if(nod != nullptr){
         fun(nod->elem, ret);
-        PostOrderFold(fun, ret, nod->next);
+        PreOrderFold(fun, ret, nod->next);
     }
 }
 
@@ -403,7 +406,7 @@ template <typename Data>
 inline void List<Data>::PreOrderMap(MapFunctor fun, Node * nod) const {
     if(nod != nullptr){
         fun(nod->elem);
-        PostOrderMap(fun, nod->next);
+        PreOrderMap(fun, nod->next);
     }
 }
 
@@ -419,7 +422,7 @@ template <typename Data>
 inline void List<Data>::PreOrderMap(MutableMapFunctor fun, Node * nod) {
     if(nod != nullptr){
         fun(nod->elem);
-        PostOrderMap(fun, nod->next);
+        PreOrderMap(fun, nod->next);
     }
 }
 

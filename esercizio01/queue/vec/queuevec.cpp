@@ -32,16 +32,14 @@ QueueVec<Data>::QueueVec(MutableMappableContainer<Data>&& con) noexcept {
 }
 
 template <typename Data>
-QueueVec<Data>::QueueVec(const QueueVec& con){
-    Vector<Data>::Vector(con);
+QueueVec<Data>::QueueVec(const QueueVec& con) : Vector<Data>::Vector(con) {
     head = con.head;
     tail = con.tail;
     sentinel = con.sentinel;
 }
 
 template <typename Data>
-QueueVec<Data>::QueueVec(QueueVec&& con) noexcept {
-    Vector<Data>::Vector(con);
+QueueVec<Data>::QueueVec(QueueVec&& con) noexcept : Vector<Data>::Vector(con) {
     std::swap(head, con.head);
     std::swap(tail, con.tail);
     std::swap(sentinel, con.sentinel);
@@ -98,24 +96,24 @@ inline bool QueueVec<Data>::operator!=(const QueueVec& con) const noexcept {
 
 template <typename Data>
 inline const Data& QueueVec<Data>::Head() const {
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return elements[head];
 }
 
 template <typename Data>
 inline Data& QueueVec<Data>::Head() {
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
     return elements[head];
 }
 
 template <typename Data>
 inline void QueueVec<Data>::Dequeue() {
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
 
     Reduce();
@@ -125,8 +123,8 @@ inline void QueueVec<Data>::Dequeue() {
 
 template <typename Data>
 inline Data QueueVec<Data>::HeadNDequeue() {
-    if(Size()==0){
-        throw std::length_error();
+    if(Empty()){
+        throw std::length_error("Empty container!");
     }
 
     Data temp = Head();
