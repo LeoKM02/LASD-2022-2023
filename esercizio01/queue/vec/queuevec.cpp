@@ -4,9 +4,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-QueueVec<Data>::QueueVec() {
-    Vector<Data>(DEFAULT_CAPACITY);
-    sentinel = size-1;
+QueueVec<Data>::QueueVec() : Vector<Data>(DEFAULT_CAPACITY) {
+    sentinel = DEFAULT_CAPACITY-1;
 }
 
 template <typename Data>
@@ -72,14 +71,15 @@ inline bool QueueVec<Data>::operator==(const QueueVec& con) const noexcept {
         if(!Empty()){
             QueueVec* temp1 = new QueueVec(*this);
             QueueVec* temp2 = new QueueVec(con);
-            for(ulong i=0; i<Size(); ++i){
+            ulong s = Size();
+            for(ulong i=0; i<s; ++i){
                 if(temp1->HeadNDequeue() != temp2->HeadNDequeue()){
                     ret = false;
                     break;
                 }
             }
-            delete[] temp1;
-            delete[] temp2;
+            delete temp1;
+            delete temp2;
         }
     }
     else{
@@ -202,7 +202,7 @@ inline void QueueVec<Data>::Expand() {
 
 template <typename Data>
 inline void QueueVec<Data>::Reduce() {
-    if(Size() <= size/4){
+    if(size>DEFAULT_CAPACITY && Size()<=size/4){
         ulong newsize = size/2;
 
         Data* temp = new Data[newsize] {};

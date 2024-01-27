@@ -32,16 +32,16 @@ public:
   /* ************************************************************************ */
 
   // Specific constructor
-  QueueLst(const MappableContainer<Data>& con) : List<Data>::List(con) {} // A queue obtained from a MappableContainer
-  QueueLst(MutableMappableContainer<Data>&& con) noexcept : List<Data>::List(std::move(con)) {} // A queue obtained from a MutableMappableContainer
+  QueueLst(const MappableContainer<Data>& con) : List<Data>(con) {} // A queue obtained from a MappableContainer
+  QueueLst(MutableMappableContainer<Data>&& con) noexcept : List<Data>(std::move(con)) {} // A queue obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  QueueLst(const QueueLst& con) : List<Data>::List(con) {}
+  QueueLst(const QueueLst& con) : List<Data>(con) {}
 
   // Move constructor
-  QueueLst(QueueLst&& con) noexcept : List<Data>::List(std::move(con)) {}
+  QueueLst(QueueLst&& con) noexcept : List<Data>(std::move(con)) {}
 
   /* ************************************************************************ */
 

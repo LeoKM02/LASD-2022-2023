@@ -32,16 +32,16 @@ public:
   /* ************************************************************************ */
 
   // Specific constructor
-  StackLst(const MappableContainer<Data>& con) : List<Data>::List(con) {} // A stack obtained from a MappableContainer
-  StackLst(MutableMappableContainer<Data>&& con) noexcept : List<Data>::List(std::move(con)) {} // A stack obtained from a MutableMappableContainer
+  StackLst(const MappableContainer<Data>& con) : List<Data>(con) {} // A stack obtained from a MappableContainer
+  StackLst(MutableMappableContainer<Data>&& con) noexcept : List<Data>(std::move(con)) {} // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  StackLst(const StackLst& con) : List<Data>::List(con) {}
+  StackLst(const StackLst& con) : List<Data>(con) {}
 
   // Move constructor
-  StackLst(StackLst&& con) noexcept : List<Data>::List(std::move(con)) {}
+  StackLst(StackLst&& con) noexcept : List<Data>(std::move(con)) {}
 
   /* ************************************************************************ */
 

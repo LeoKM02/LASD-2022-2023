@@ -23,7 +23,7 @@ inline StackVec<Data>::StackVec(MutableMappableContainer<Data>&& con) noexcept {
 
 template <typename Data>
 inline StackVec<Data>::StackVec(const StackVec<Data>& con) : Vector<Data>(con) {
-    topIndex == con.topIndex;
+    topIndex = con.topIndex;
 }
 
 template <typename Data>
@@ -65,18 +65,18 @@ inline bool StackVec<Data>::operator!=(const StackVec<Data>& con) const noexcept
 
 template <typename Data>
 inline const Data& StackVec<Data>::Top() const {
-    if(Empty()){
+    if(topIndex==0){
         throw std::length_error("Empty container!");
     }
-    return elements[Size()-1];
+    return elements[topIndex-1];
 }
 
 template <typename Data>
 inline Data& StackVec<Data>::Top() {
-    if(Empty()){
+    if(topIndex==0){
         throw std::length_error("Empty container!");
     }
-    return elements[Size()-1];
+    return elements[topIndex-1];
 }
 
 template <typename Data>
@@ -134,7 +134,7 @@ inline void StackVec<Data>::Expand() {
 
 template <typename Data>
 inline void StackVec<Data>::Reduce() {
-    if(size!=DEFAULT_CAPACITY && topIndex==size/4){
+    if(size>DEFAULT_CAPACITY && topIndex<=size/4){
         Vector<Data>::Resize(size / 2);
     }
 }
