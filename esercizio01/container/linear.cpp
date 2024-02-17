@@ -10,7 +10,7 @@ namespace lasd {
 template<typename Data>
 inline bool LinearContainer<Data>::operator==(const LinearContainer& con) const noexcept{
     if(this->Size() == con.Size()){
-        for(ulong i=0; i<this->Size(); ++i){
+        for(unsigned long i=0; i<this->Size(); ++i){
             if(operator[](i) != con.operator[](i)){
                 return false;
             }
@@ -67,14 +67,14 @@ inline void LinearContainer<Data>::Fold(FoldFunctor fun, void * ret) const {
 
 template<typename Data>
 inline void LinearContainer<Data>::PreOrderFold(FoldFunctor fun, void * ret) const {
-    for(ulong i=0; i<this->Size(); ++i){
+    for(unsigned long i=0; i<this->Size(); ++i){
         fun(operator[](i), ret);
     }
 }
 
 template<typename Data>
 inline void LinearContainer<Data>::PostOrderFold(FoldFunctor fun, void * ret) const {
-    for(ulong i=this->Size(); i>0;){
+    for(unsigned long i=this->Size(); i>0;){
         fun(operator[](--i), ret);
     }
 }
@@ -86,14 +86,14 @@ inline void LinearContainer<Data>::Map(MapFunctor fun) const {
 
 template<typename Data>
 inline void LinearContainer<Data>::PreOrderMap(MapFunctor fun) const {
-    for(ulong i=0; i<this->Size(); ++i){
+    for(unsigned long i=0; i<this->Size(); ++i){
         fun(operator[](i));
     }
 }
 
 template<typename Data>
 inline void LinearContainer<Data>::PostOrderMap(MapFunctor fun) const {
-    for(ulong i=this->Size(); i>0;){
+    for(unsigned long i=this->Size(); i>0;){
         fun(operator[](--i));
     }
 }
@@ -105,14 +105,14 @@ inline void LinearContainer<Data>::Map(MutableMapFunctor fun) {
 
 template<typename Data>
 inline void LinearContainer<Data>::PreOrderMap(MutableMapFunctor fun) {
-    for(ulong i=0; i<this->Size(); ++i){
+    for(unsigned long i=0; i<this->Size(); ++i){
         fun(operator[](i));
     }
 }
 
 template<typename Data>
 inline void LinearContainer<Data>::PostOrderMap(MutableMapFunctor fun) {
-    for(ulong i=this->Size(); i>0;){
+    for(unsigned long i=this->Size(); i>0;){
         fun(operator[](--i));
     }
 }

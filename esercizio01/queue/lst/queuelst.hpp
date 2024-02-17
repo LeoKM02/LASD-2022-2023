@@ -75,6 +75,8 @@ public:
 
   /* ************************************************************************ */
 
+  inline void View() const noexcept override;
+  
   // Specific member function (inherited from ClearableContainer)
 
   using List<Data>::Clear;

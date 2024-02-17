@@ -147,8 +147,8 @@ public:
 
   // Specific member functions (inherited from LinearContainer)
 
-  inline const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
-  inline Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline const Data& operator[](const unsigned long) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline Data& operator[](const unsigned long) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
   inline const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
   inline Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
@@ -217,6 +217,8 @@ public:
   // Specific member function (inherited from MutablePostOrderMappableContainer)
 
   inline void PostOrderMap(MutableMapFunctor) override; // Override MutablePostOrderMappableContainer member
+
+  inline void View() const noexcept override;
 
 protected:
 

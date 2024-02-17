@@ -1,11 +1,13 @@
 #include "vector.hpp"
 
+#include <iostream>
+
 namespace lasd {
 
 /* ************************************************************************** */
 
 template<typename Data>
-Vector<Data>::Vector(const ulong s){
+Vector<Data>::Vector(const unsigned long s){
     size = s;
     elements = new Data[size]{};
 }
@@ -14,7 +16,7 @@ template<typename Data>
 Vector<Data>::Vector(const MappableContainer<Data>& con){
     size = con.Size();
     elements = new Data[size]{};
-    ulong i = 0;
+    unsigned long i = 0;
     con.Map([this, &i](const Data& dat){
         elements[i] = dat;
         ++i;
@@ -25,7 +27,7 @@ template<typename Data>
 Vector<Data>::Vector(MutableMappableContainer<Data>&& con) noexcept {
     size = con.Size();
     elements = new Data[size]{};
-    ulong i = 0;
+    unsigned long i = 0;
     con.Map([this, &i](Data& dat){
         elements[i] = std::move(dat);
         ++i;
@@ -68,7 +70,7 @@ Vector<Data>& Vector<Data>::operator=(Vector&& con) noexcept {
 template<typename Data>
 inline bool Vector<Data>::operator==(const Vector& con) const noexcept {
     if(size == con.size){
-        for(ulong i=0; i<Size(); ++i){
+        for(unsigned long i=0; i<Size(); ++i){
             if(elements[i] != con.elements[i]){
                 return false;
             }
@@ -93,11 +95,11 @@ inline void Vector<Data>::Clear() {
 }
 
 template<typename Data>
-inline void Vector<Data>::Resize(const ulong newsize) {
+inline void Vector<Data>::Resize(const unsigned long newsize) {
     if(newsize>0){
         Data * temp = new Data[newsize]{};
-        ulong lim = (size < newsize)? size : newsize;
-        ulong i = 0;
+        unsigned long lim = (size < newsize)? size : newsize;
+        unsigned long i = 0;
         while(i<lim){
             std::swap(temp[i], elements[i]);
             ++i;
@@ -113,7 +115,7 @@ inline void Vector<Data>::Resize(const ulong newsize) {
 
 template<typename Data>
 inline bool Vector<Data>::Exists(const Data& dat) const noexcept {
-    for(ulong i=0; i<Size(); ++i){
+    for(unsigned long i=0; i<Size(); ++i){
         if(elements[i] == dat){
             return true;
         }
@@ -122,7 +124,7 @@ inline bool Vector<Data>::Exists(const Data& dat) const noexcept {
 }
 
 template<typename Data>
-inline const Data& Vector<Data>::operator[](const ulong i) const {
+inline const Data& Vector<Data>::operator[](const unsigned long i) const {
     if(i>=Size()){
         throw std::out_of_range("Index out of range!");
     }
@@ -130,7 +132,7 @@ inline const Data& Vector<Data>::operator[](const ulong i) const {
 }
 
 template<typename Data>
-inline Data& Vector<Data>::operator[](const ulong i) {
+inline Data& Vector<Data>::operator[](const unsigned long i) {
     if(i>=Size()){
         throw std::out_of_range("Index out of range!");
     }
@@ -175,8 +177,19 @@ inline void Vector<Data>::Sort() {
 }
 
 template<typename Data>
-inline void Vector<Data>::MergeSort(ulong p, ulong r){
-    ulong q;
+inline void Vector<Data>::View() const noexcept{
+    unsigned long i = 0;
+
+    std::cout << "Size = " << this->Size() << "\n\n";
+
+    this->Map([&i](const Data& dat){
+        std::cout << "[Index: " << i++ << "]     " << dat << "\n";
+    });
+}
+
+template<typename Data>
+inline void Vector<Data>::MergeSort(unsigned long p, unsigned long r){
+    unsigned long q;
     if(p < r){
         q = (p+r)/2;
         MergeSort(p, q);
@@ -186,8 +199,8 @@ inline void Vector<Data>::MergeSort(ulong p, ulong r){
 }
 
 template<typename Data>
-inline void Vector<Data>::Merge(ulong p, ulong q, ulong r){
-    ulong x, y, z;
+inline void Vector<Data>::Merge(unsigned long p, unsigned long q, unsigned long r){
+    unsigned long x, y, z;
     Data* temp = new Data[r-p+1]{};
     x = p;
     y = q+1;

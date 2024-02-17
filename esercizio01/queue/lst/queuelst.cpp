@@ -1,3 +1,4 @@
+#include <iostream>
 
 namespace lasd {
 
@@ -53,6 +54,22 @@ inline void QueueLst<Data>::Enqueue(const Data& dat) {
 template<typename Data>
 inline void QueueLst<Data>::Enqueue(Data&& dat) noexcept {
     List<Data>::InsertAtBack(dat);
+}
+
+template<typename Data>
+inline void QueueLst<Data>::View() const noexcept{
+    std::cout << "Size = " << this->Size() << "\n\n";
+    
+    this->Map([this](const Data& dat){
+        if(this->Head() == dat){
+            std::cout << "Head ->    ";
+        }
+        else{
+            std::cout << "           ";
+        }
+
+        std::cout << dat << "\n";
+    });
 }
 
 /* ************************************************************************** */

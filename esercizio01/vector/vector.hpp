@@ -21,7 +21,6 @@ class Vector: virtual public ResizableContainer,
 protected:
 
   using Container::size;
-
   Data* elements = nullptr;
 
 public:
@@ -32,7 +31,7 @@ public:
   /* ************************************************************************ */
 
   // Specific constructors
-  Vector(const ulong); // A vector with a given initial dimension
+  Vector(const unsigned long); // A vector with a given initial dimension
   Vector(const MappableContainer<Data>&); // A vector obtained from a MappableContainer
   Vector(MutableMappableContainer<Data>&&) noexcept; // A vector obtained from a MutableMappableContainer
 
@@ -73,7 +72,7 @@ public:
 
   // Specific member function (inherited from ResizableContainer)
 
-  inline void Resize(const ulong) override; // Override ResizableContainer member
+  inline void Resize(const unsigned long) override; // Override ResizableContainer member
 
   /* ************************************************************************ */
 
@@ -85,8 +84,8 @@ public:
 
   // Specific member functions (inherited from LinearContainer)
 
-  inline const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
-  inline Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline const Data& operator[](const unsigned long) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
+  inline Data& operator[](const unsigned long) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
   inline const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
   inline Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
@@ -100,10 +99,12 @@ public:
 
   inline void Sort() override; // Override SortableLinearContainer member
 
+  inline void View() const noexcept override;
+
 protected:
 
-  void MergeSort(const ulong, const ulong);
-  void Merge(const ulong, const ulong, const ulong);
+  void MergeSort(const unsigned long, const unsigned long);
+  void Merge(const unsigned long, const unsigned long, const unsigned long);
 
 };
 

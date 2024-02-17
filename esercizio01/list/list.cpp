@@ -1,5 +1,7 @@
 #include "list.hpp"
 
+#include <iostream>
+
 namespace lasd {
 
 /* ************************************************************************** */
@@ -268,7 +270,7 @@ inline bool List<Data>::Remove(const Data& dat) {
 }
 
 template<typename Data>
-inline const Data& List<Data>::operator[](const ulong index) const {
+inline const Data& List<Data>::operator[](const unsigned long index) const {
     if(index >= Size()){
         throw std::out_of_range("Index out of bounds!");
     }
@@ -278,7 +280,7 @@ inline const Data& List<Data>::operator[](const ulong index) const {
     }
 
     Node* temp = head;
-    ulong i = 0;
+    unsigned long i = 0;
     while(i < index){
         temp = temp->next;
         ++i;
@@ -287,7 +289,7 @@ inline const Data& List<Data>::operator[](const ulong index) const {
 }
 
 template<typename Data>
-inline Data& List<Data>::operator[](const ulong index) {
+inline Data& List<Data>::operator[](const unsigned long index) {
     if(index >= Size()){
         throw std::out_of_range("Index out of bounds!");
     }
@@ -297,7 +299,7 @@ inline Data& List<Data>::operator[](const ulong index) {
     }
 
     Node* temp = head;
-    ulong i = 0;
+    unsigned long i = 0;
     while(i < index){
         temp = temp->next;
         ++i;
@@ -382,6 +384,26 @@ inline void List<Data>::PreOrderMap(MutableMapFunctor fun) {
 template<typename Data>
 inline void List<Data>::PostOrderMap(MutableMapFunctor fun) {
     PostOrderMap(fun, head);
+}
+
+template<typename Data>
+inline void List<Data>::View() const noexcept{
+    std::cout << "Size = " << this->Size() << "\n\n";
+    
+    this->Map([this](const Data& dat){
+        if(this->Front() == dat){
+            std::cout << "Front ->     ";
+        }
+        else if(this->Back() == dat){
+            std::cout << "Back  ->     ";
+        }
+        else{
+            std::cout << "      ->     ";
+        }
+        
+
+        std::cout << dat << "\n";
+    });
 }
 
 // Auxiliary member functions

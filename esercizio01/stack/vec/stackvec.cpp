@@ -1,3 +1,4 @@
+#include <iostream>
 
 namespace lasd {
 
@@ -48,7 +49,7 @@ inline StackVec<Data>& StackVec<Data>::operator=(StackVec&& con) noexcept {
 template <typename Data>
 inline bool StackVec<Data>::operator==(const StackVec<Data>& con) const noexcept {
     if(Size() == con.Size()){
-        for(ulong i=0; i<Size(); ++i){
+        for(unsigned long i=0; i<Size(); ++i){
             if(elements[i] != con.elements[i]){
                 return false;
             }
@@ -115,7 +116,7 @@ inline bool StackVec<Data>::Empty() const noexcept {
 }
 
 template <typename Data>
-inline ulong StackVec<Data>::Size() const noexcept {
+inline unsigned long StackVec<Data>::Size() const noexcept {
     return topIndex;
 }
 
@@ -137,6 +138,37 @@ inline void StackVec<Data>::Reduce() {
     if(size>DEFAULT_CAPACITY && topIndex<=size/4){
         Vector<Data>::Resize(size / 2);
     }
+}
+
+template <typename Data>
+inline void StackVec<Data>::Fold(FoldFunctor fun, void * ret) const{
+    this->PostOrderFold(fun, ret);
+}
+
+template <typename Data>
+inline void StackVec<Data>::Map(MapFunctor fun) const{
+    this->PostOrderMap(fun);
+}
+
+template <typename Data>
+inline void StackVec<Data>::Map(MutableMapFunctor fun){
+    this->PostOrderMap(fun);
+}
+
+template<typename Data>
+inline void StackVec<Data>::View() const noexcept{
+    std::cout << "Size = " << this->Size() << "\n\n";
+    
+    this->Map([this](const Data& dat){
+        if(this->Top() == dat){
+            std::cout << "Top ->     ";
+        }
+        else{
+            std::cout << "           ";
+        }
+
+        std::cout << dat << "\n";
+    });
 }
 
 /* ************************************************************************** */

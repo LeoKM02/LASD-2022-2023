@@ -1,3 +1,4 @@
+#include <iostream>
 
 namespace lasd {
 
@@ -54,6 +55,22 @@ template<typename Data>
 inline void StackLst<Data>::Push(Data&& dat) noexcept{
     List<Data>::InsertAtFront(dat);
 } // Move of the value
+
+template<typename Data>
+inline void StackLst<Data>::View() const noexcept{
+    std::cout << "Size = " << this->Size() << "\n\n";
+
+    this->Map([this](const Data& dat){
+        if(this->Top() == dat){
+            std::cout << "Top ->     ";
+        }
+        else{
+            std::cout << "           ";
+        }
+
+        std::cout << dat << "\n";
+    });
+}
 
 /* ************************************************************************** */
 

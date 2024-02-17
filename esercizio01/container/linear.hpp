@@ -42,8 +42,8 @@ public:
 
   // Specific member functions
 
-  virtual const Data& operator[](const ulong) const = 0; // (non-mutable version; concrete function must throw std::out_of_range when out of range)
-  virtual Data& operator[](const ulong) = 0; // (mutable version; concrete function must throw std::out_of_range when out of range)
+  virtual const Data& operator[](const unsigned long) const = 0; // (non-mutable version; concrete function must throw std::out_of_range when out of range)
+  virtual Data& operator[](const unsigned long) = 0; // (mutable version; concrete function must throw std::out_of_range when out of range)
 
   inline virtual const Data& Front() const; // (non-mutable version; concrete function must throw std::length_error when empty)
   inline virtual Data& Front(); // (mutable version; concrete function must throw std::length_error when empty)

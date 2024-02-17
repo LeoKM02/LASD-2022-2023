@@ -20,13 +20,13 @@ class QueueVec: virtual public Queue<Data>,
                   //             Vector<Data>
 protected:
 
-  static const ulong DEFAULT_CAPACITY = 10;
+  static const unsigned long DEFAULT_CAPACITY = 10;
 
   using Container::size;
   using Vector<Data>::elements;
-  ulong head = 0;
-  ulong tail = 0;
-  ulong sentinel = 0;
+  unsigned long head = 0;
+  unsigned long tail = 0;
+  unsigned long sentinel = 0;
 
 public:
 
@@ -83,7 +83,7 @@ public:
 
   inline bool Empty() const noexcept override; // Override Container member
 
-  inline ulong Size() const noexcept override; // Override Container member
+  inline unsigned long Size() const noexcept override; // Override Container member
 
   /* ************************************************************************ */
 
@@ -91,13 +91,28 @@ public:
 
   inline void Clear() override; // Override ClearableContainer member
 
+  inline void View() const noexcept override;
+
 protected:
+
+  // Specific member function (inherited from LinearContainer)
+
+  using typename FoldableContainer<Data>::FoldFunctor;
+  inline void PreOrderFold(FoldFunctor, void *) const override;
+  inline void PostOrderFold(FoldFunctor, void *) const override;
+
+  using typename MappableContainer<Data>::MapFunctor;
+  inline void PreOrderMap(MapFunctor) const override;
+  inline void PostOrderMap(MapFunctor) const override;
+
+  using typename MutableMappableContainer<Data>::MutableMapFunctor;
+  inline void PreOrderMap(MutableMapFunctor) override;
+  inline void PostOrderMap(MutableMapFunctor) override;
 
   // Auxiliary member functions
 
   inline void Expand();
   inline void Reduce();
-  // inline void SwapVectors(arguments);
 
 };
 

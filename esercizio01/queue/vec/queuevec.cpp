@@ -1,3 +1,4 @@
+#include <iostream>
 
 namespace lasd {
 
@@ -71,8 +72,8 @@ inline bool QueueVec<Data>::operator==(const QueueVec& con) const noexcept {
         if(!Empty()){
             QueueVec* temp1 = new QueueVec(*this);
             QueueVec* temp2 = new QueueVec(con);
-            ulong s = Size();
-            for(ulong i=0; i<s; ++i){
+            unsigned long s = Size();
+            for(unsigned long i=0; i<s; ++i){
                 if(temp1->HeadNDequeue() != temp2->HeadNDequeue()){
                     ret = false;
                     break;
@@ -154,7 +155,7 @@ inline bool QueueVec<Data>::Empty() const noexcept {
 }
 
 template <typename Data>
-inline ulong QueueVec<Data>::Size() const noexcept {
+inline unsigned long QueueVec<Data>::Size() const noexcept {
     if(head <= tail){
         return (tail-head); 
     }
@@ -173,6 +174,106 @@ inline void QueueVec<Data>::Clear() {
     sentinel = size - 1;
 }
 
+template<typename Data>
+inline void QueueVec<Data>::View() const noexcept{
+    std::cout << "Size = " << this->Size() << "\n\n";
+
+    this->Map([this](const Data& dat){
+        if(this->Head() == dat){
+            std::cout << "Head ->    ";
+        }
+        else{
+            std::cout << "           ";
+        }
+
+        std::cout << dat << "\n";
+    });
+}
+
+template<typename Data>
+inline void QueueVec<Data>::PreOrderFold(FoldFunctor fun, void * ret) const{
+    for(unsigned long i=this->head; i!=this->tail; i=(i+1)%this->size){
+        fun(this->elements[i], ret);
+    }
+}
+
+template<typename Data>
+inline void QueueVec<Data>::PostOrderFold(FoldFunctor fun, void * ret) const{
+    unsigned long i;
+    if(this->tail == 0){
+        i = this->size-1;
+    }
+    else{
+        i = this->tail-1;
+    }
+
+    while(i != this->head){
+        fun(this->elements[i], ret);
+        if(i == 0){
+            i = this->size-1;
+        }
+        else{
+            --i;
+        }
+    }
+}
+
+template<typename Data>
+inline void QueueVec<Data>::PreOrderMap(MapFunctor fun) const{
+    for(unsigned long i=this->head; i!=this->tail; i=(i+1)%this->size){
+        fun(this->elements[i]);
+    }
+}
+
+template<typename Data>
+inline void QueueVec<Data>::PostOrderMap(MapFunctor fun) const{
+    unsigned long i;
+    if(this->tail == 0){
+        i = this->size-1;
+    }
+    else{
+        i = this->tail-1;
+    }
+
+    while(i != this->head){
+        fun(this->elements[i]);
+        if(i == 0){
+            i = this->size-1;
+        }
+        else{
+            --i;
+        }
+    }
+}
+
+template<typename Data>
+inline void QueueVec<Data>::PreOrderMap(MutableMapFunctor fun){
+    for(unsigned long i=this->head; i!=this->tail; i=(i+1)%this->size){
+        fun(this->elements[i]);
+    }
+}
+
+template<typename Data>
+inline void QueueVec<Data>::PostOrderMap(MutableMapFunctor fun){
+    unsigned long i;
+    if(this->tail == 0){
+        i = this->size-1;
+    }
+    else{
+        i = this->tail-1;
+    }
+
+    while(i != this->head){
+        fun(this->elements[i]);
+        if(i == 0){
+            i = this->size-1;
+        }
+        else{
+            --i;
+        }
+    }
+}
+
 template <typename Data>
 inline void QueueVec<Data>::Expand() {
     if(sentinel == tail){
@@ -181,10 +282,10 @@ inline void QueueVec<Data>::Expand() {
             sentinel = (head-1)%size;
         }
         else{
-            ulong newsize = size*2;
+            unsigned long newsize = size*2;
 
             Data* temp = new Data[newsize] {};
-            ulong i, j;
+            unsigned long i, j;
             for(i=head, j=0; i!=tail; i=(i+1)%size, ++j){
                 std::swap(elements[i], temp[j]);
             }
@@ -203,10 +304,10 @@ inline void QueueVec<Data>::Expand() {
 template <typename Data>
 inline void QueueVec<Data>::Reduce() {
     if(size>DEFAULT_CAPACITY && Size()<=size/4){
-        ulong newsize = size/2;
+        unsigned long newsize = size/2;
 
         Data* temp = new Data[newsize] {};
-        ulong i, j;
+        unsigned long i, j;
         for(i=head, j=0; i!=tail; i=(i+1)%size, ++j){
             std::swap(elements[i], temp[j]);
         }
@@ -218,7 +319,7 @@ inline void QueueVec<Data>::Reduce() {
         tail = j;
         sentinel = size-1;
     }
-}    
+}
 
 /* ************************************************************************** */
 

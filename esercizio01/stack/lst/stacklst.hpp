@@ -16,8 +16,6 @@ namespace lasd {
 template <typename Data>
 class StackLst: virtual public Stack<Data>,
                 virtual protected List<Data>{
-                  // Must extend Stack<Data>,
-                  //             List<Data>
 protected:
 
   using Container::size;
@@ -74,6 +72,8 @@ public:
   inline void Push(Data&&) noexcept override; // Move of the value
 
   /* ************************************************************************ */
+
+  inline void View() const noexcept override;
 
   // Specific member function (inherited from ClearableContainer)
 

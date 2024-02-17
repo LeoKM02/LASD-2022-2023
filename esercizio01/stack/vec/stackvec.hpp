@@ -16,15 +16,13 @@ namespace lasd {
 template <typename Data>
 class StackVec: virtual public Stack<Data>,
                 virtual protected Vector<Data> {
-                  // Must extend Stack<Data>,
-                  //             Vector<Data>
 protected:
 
-  static const ulong DEFAULT_CAPACITY = 10;
+  static const unsigned long DEFAULT_CAPACITY = 10;
 
   using Container::size;
   using Vector<Data>::elements;
-  ulong topIndex = 0;
+  unsigned long topIndex = 0;
 
 public:
 
@@ -81,13 +79,17 @@ public:
 
   inline bool Empty() const noexcept override; // Override Container member
 
-  inline ulong Size() const noexcept override; // Override Container member
+  inline unsigned long Size() const noexcept override; // Override Container member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
 
   inline void Clear() override; // Override ClearableContainer member
+  
+  /* ************************************************************************ */
+
+  inline void View() const noexcept override;
 
 protected:
 
@@ -95,6 +97,17 @@ protected:
 
   inline void Expand();
   inline void Reduce();
+
+  // Specific member function (inherited from LinearContainer)
+
+  using typename FoldableContainer<Data>::FoldFunctor;
+  inline void Fold(FoldFunctor, void *) const override;
+
+  using typename MappableContainer<Data>::MapFunctor;
+  inline void Map(MapFunctor) const override;
+
+  using typename MutableMappableContainer<Data>::MutableMapFunctor;
+  inline void Map(MutableMapFunctor) override;
 
 };
 

@@ -12,7 +12,7 @@ class Container {
 
 protected:
 
-  ulong size = 0;
+  unsigned long size = 0;
 
 public:
 
@@ -36,11 +36,13 @@ public:
 
   // Specific member functions
 
+  virtual void View() const noexcept = 0;
+
   virtual bool Empty() const noexcept {
     return (size == 0);
   } // (concrete function should not throw exceptions)
 
-  virtual ulong Size() const noexcept {
+  virtual unsigned long Size() const noexcept {
     return size;
   } // (concrete function should not throw exceptions)
 
@@ -109,7 +111,7 @@ public:
   /* ************************************************************************ */
 
   // Specific member function
-  virtual void Resize(const ulong) = 0;
+  virtual void Resize(const unsigned long) = 0;
 
 };
 
