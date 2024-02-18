@@ -156,7 +156,11 @@ inline void StackVec<Data>::Map(MutableMapFunctor fun){
 }
 
 template<typename Data>
-inline void StackVec<Data>::View() const noexcept{
+inline void StackVec<Data>::View() const{
+    if(Empty()){
+        throw std::length_error("Empty container!");
+    }
+
     std::cout << "Size = " << this->Size() << "\n\n";
     
     this->Map([this](const Data& dat){

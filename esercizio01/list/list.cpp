@@ -387,7 +387,11 @@ inline void List<Data>::PostOrderMap(MutableMapFunctor fun) {
 }
 
 template<typename Data>
-inline void List<Data>::View() const noexcept{
+inline void List<Data>::View() const{
+    if(Empty()){
+        throw std::length_error("Empty container!");
+    }
+
     std::cout << "Size = " << this->Size() << "\n\n";
     
     this->Map([this](const Data& dat){

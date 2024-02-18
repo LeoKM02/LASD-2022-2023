@@ -55,68 +55,68 @@ void mytest(){
             if(type == INT_ID){
                 lasd::StackVec<int> stkvec;
                 fillStack(stkvec);
-                testStackVec(stkvec);
+                testStack(stkvec);
             }
             else if(type == FLOAT_ID){
                 lasd::StackVec<float> stkvec;
                 fillStack(stkvec);
-                testStackVec(stkvec);
+                testStack(stkvec);
             }
             else if(type == STRING_ID){
                 lasd::StackVec<std::string> stkvec;
                 fillStack(stkvec);
-                testStackVec(stkvec);
+                testStack(stkvec);
             }
         }
         else if(structure == STACKLST_ID){
             if(type == INT_ID){
                 lasd::StackLst<int> stklst;
                 fillStack(stklst);
-                testStackLst(stklst);
+                testStack(stklst);
             }
             else if(type == FLOAT_ID){
                 lasd::StackLst<float> stklst;
                 fillStack(stklst);
-                testStackLst(stklst);
+                testStack(stklst);
             }
             else if(type == STRING_ID){
                 lasd::StackLst<std::string> stklst;
                 fillStack(stklst);
-                testStackLst(stklst);
+                testStack(stklst);
             }
         }
         else if(structure == QUEUEVEC_ID){
             if(type == INT_ID){
                 lasd::QueueVec<int> quevec;
                 fillQueue(quevec);
-                testQueueVec(quevec);
+                testQueue(quevec);
             }
             else if(type == FLOAT_ID){
                 lasd::QueueVec<float> quevec;
                 fillQueue(quevec);
-                testQueueVec(quevec);
+                testQueue(quevec);
             }
             else if(type == STRING_ID){
                 lasd::QueueVec<std::string> quevec;
                 fillQueue(quevec);
-                testQueueVec(quevec);
+                testQueue(quevec);
             }
         }
         else if(structure == QUEUELST_ID){
             if(type == INT_ID){
                 lasd::QueueLst<int> quelst;
                 fillQueue(quelst);
-                testQueueLst(quelst);
+                testQueue(quelst);
             }
             else if(type == FLOAT_ID){
                 lasd::QueueLst<float> quelst;
                 fillQueue(quelst);
-                testQueueLst(quelst);
+                testQueue(quelst);
             }
             else if(type == STRING_ID){
                 lasd::QueueLst<std::string> quelst;
                 fillQueue(quelst);
-                testQueueLst(quelst);
+                testQueue(quelst);
             }
         }
 
@@ -172,10 +172,6 @@ unsigned short selectStructure(){
 
     return parsed_input;
 }
-
-
-
-
 
 unsigned short selectType(){
     unsigned short parsed_input;
@@ -307,15 +303,14 @@ void fillQueue(lasd::Queue<std::string> & que){
 
 
 template <typename Data>
-void testVector(lasd::Vector<Data> & vec){
+void testVector(lasd::Vector<Data> & con){
     const unsigned short OP_VIEW = 1;
     const unsigned short OP_CLEAR = 2;
     const unsigned short OP_RESIZE = 3;
     const unsigned short OP_EXISTS = 4;
     const unsigned short OP_ASSIGN = 5;
-    const unsigned short OP_FRONT = 6;
-    const unsigned short OP_BACK = 7;
-    const unsigned short OP_SORT = 8;
+    const unsigned short OP_SORT = 6;
+    const unsigned short OP_FILL = 7;
 
     unsigned short parsed_input;
 
@@ -324,14 +319,13 @@ void testVector(lasd::Vector<Data> & vec){
 
         std::cout << "\n\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View vector\n";
-        std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear vector\n";
-        std::cout << "\t\t(" << OP_RESIZE << ") RESIZE: Resize vector\n";
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
+        std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
+        std::cout << "\t\t(" << OP_RESIZE << ") RESIZE: Resize container\n";
         std::cout << "\t\t(" << OP_EXISTS << ") EXISTS: Check existence of value\n";
         std::cout << "\t\t(" << OP_ASSIGN << ") ASSIGN: Assign value to cell\n";
-        std::cout << "\t\t(" << OP_FRONT << ") FRONT: View front of vector\n";
-        std::cout << "\t\t(" << OP_BACK << ") BACK: View back of vector\n";
-        std::cout << "\t\t(" << OP_SORT << ") SORT: Sort vector\n";
+        std::cout << "\t\t(" << OP_SORT << ") SORT: Sort container\n";
+        std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
         std::cout << "\n\t\t(0) to Exit\n";
 
         std::cout << "\n\t\t> ";
@@ -343,81 +337,84 @@ void testVector(lasd::Vector<Data> & vec){
                 break;
             }
             else if(parsed_input == OP_VIEW){
-                std::cout << "\nViewing vector...\n\n";
-                vec.View();
+                std::cout << "\n\t\tViewing container...\n\n";
+                con.View();
             }
             else if(parsed_input == OP_CLEAR){
-                vec.Clear();
-                std::cout << "\nVector successfully cleared!\n\n";
+                con.Clear();
+                std::cout << "\n\t\tContainer successfully cleared!\n\n";
             }
             else if(parsed_input == OP_RESIZE){
 
                 unsigned long newsize;
 
-                std::cout << "\nInsert new [Size] for vector > ";
+                std::cout << "\n\t\tInsert new [Size] for container (0 - 1000000) > ";
 
                 getValue(newsize);
 
-                vec.Resize(newsize);
-                fillVector(vec);
+                if(newsize > 1000000){
+                    throw std::out_of_range("Size value too big!");
+                }
 
-                std::cout << "\nVector successfully resized!\n\n";
+                con.Resize(newsize);
+
+                std::cout << "\n\t\tContainer successfully resized!\n\n";
             }
             else if(parsed_input == OP_EXISTS){
 
                 Data value;
 
-                std::cout << "\nInsert the [Value] to search inside the vector: > ";
+                std::cout << "\n\t\tInsert the [Value] to search inside the container:\n";
+                std::cout << "\n\t\t> ";
 
                 getValue(value);
 
-                if(vec.Exists(value)){
-                    std::cout << "\nValue [ " << value << " ] exists!\n\n";
+                if(con.Exists(value)){
+                    std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
                 }
                 else{
-                    std::cout << "\nValue [ " << value << " ] does not exists!\n\n";
+                    std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
                 }
             }
             else if(parsed_input == OP_ASSIGN){
                 unsigned long index;
                 Data newvalue;
 
-                std::cout << "\nInsert the [Index] of the cell you would like to assign a value to: > ";
+                std::cout << "\n\t\tInsert the [Index] of the cell:\n";
+                std::cout << "\n\t\t> ";
 
                 getValue(index);
 
-                std::cout << "\nInsert the [Value]: > ";
+                std::cout << "\n\t\tAssign the [Value]:\n";
+                std::cout << "\n\t\t> ";
 
                 getValue(newvalue);
 
-                vec[index] = newvalue;
+                con[index] = newvalue;
 
-                std::cout << "\nVector successfully updated!\n\n";
-            }
-            else if(parsed_input == OP_FRONT){
-                Data front = vec.Front();
-                std::cout << "\nFront: " << front << "\n\n";
-            }
-            else if(parsed_input == OP_BACK){
-                Data back = vec.Back();
-                std::cout << "\nBack: " << back << "\n\n";
+                std::cout << "\n\t\tContainer successfully updated!\n\n";
             }
             else if(parsed_input == OP_SORT){
-                vec.Sort();
-                std::cout << "\nVector successfully sorted!\n\n";
+                con.Sort();
+                std::cout << "\n\t\tContainer successfully sorted!\n\n";
+            }
+            else if(parsed_input == OP_FILL){
+                std::cout << "\n\t\tRandomizing container contents...\n\n";
+                fillVector(con);
+                std::cout << "\n\t\tContainer successfully filled!\n\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
         catch(const std::length_error& err){
-            std::cout << "\t\t[!] " << err.what() << "\n";
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
         }
         catch(const std::out_of_range& err){
-            std::cout << "\t\t[!] " << err.what() << "\n";
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
         }
         catch(const std::logic_error& err){
-            std::cout << "\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -425,15 +422,21 @@ void testVector(lasd::Vector<Data> & vec){
 }
 
 template <typename Data>
-void testList(lasd::List<Data> & lst){
+void testList(lasd::List<Data> & con){
     const unsigned short OP_VIEW = 1;
-    const unsigned short OP_2 = 2;
-    const unsigned short OP_3 = 3;
-    const unsigned short OP_4 = 4;
-    const unsigned short OP_5 = 5;
-    const unsigned short OP_6 = 6;
+    const unsigned short OP_CLEAR = 2;
+    const unsigned short OP_EXISTS = 3;
+    const unsigned short OP_DICTIONARY = 4;
+    const unsigned short OP_LIST = 5;
+    const unsigned short OP_FILL = 6;
 
-    std::string input;
+    const unsigned short OP_INSERT = 1;
+    const unsigned short OP_REMOVE = 2;
+
+    const unsigned short OP_INSERT_FRONT = 1;
+    const unsigned short OP_INSERT_BACK = 2;
+    const unsigned short OP_FRONT_N_REMOVE = 3;
+
     unsigned short parsed_input;
 
     do{
@@ -441,48 +444,169 @@ void testList(lasd::List<Data> & lst){
 
         std::cout << "\n\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") View\n";
-        std::cout << "\t\t(" << OP_2 << ") a\n";
-        std::cout << "\t\t(" << OP_3 << ") a\n";
-        std::cout << "\t\t(" << OP_4 << ") a\n";
-        std::cout << "\t\t(" << OP_5 << ") a\n";
-        std::cout << "\t\t(" << OP_6 << ") a\n";
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
+        std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
+        std::cout << "\t\t(" << OP_EXISTS << ") EXISTS: Check existence of value\n";
+        std::cout << "\t\t(" << OP_DICTIONARY << ") DICTIONARY: Access to dictionary specific functions\n";
+        std::cout << "\t\t(" << OP_LIST << ") LIST: Access to list specific functions\n";
+        std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
         std::cout << "\n\t\t(0) to Exit\n";
 
         std::cout << "\n\t\t> ";
-        getline(std::cin, input);
 
         try{
-            parsed_input = std::stoi(input);
+            getValue(parsed_input);
 
             if(parsed_input == 0){
                 break;
             }
             else if(parsed_input == OP_VIEW){
-                std::cout << "\nViewing data structure...\n\n";
-                lst.View();
+                std::cout << "\n\t\tViewing container...\n\n";
+                con.View();
             }
-            else if(parsed_input == OP_2){
+            else if(parsed_input == OP_CLEAR){
+                con.Clear();
+                std::cout << "\n\t\tContainer successfully cleared!\n\n";
+            }
+            else if(parsed_input == OP_EXISTS){
+
+                Data value;
+
+                std::cout << "\n\t\tInsert the [Value] to search inside the container:\n";
+                std::cout << "\n\t\t> ";
+
+                getValue(value);
+
+                if(con.Exists(value)){
+                    std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
+                }
+                else{
+                    std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
+                }
+            }
+            else if(parsed_input == OP_DICTIONARY){
+
+                unsigned short in;
+
+                std::cout << "\n\t\tSelect the dictionary operation:\n";
+
+                std::cout << "\n\t\t(" << OP_INSERT << ") INSERT: Insert value into dictionary\n";
+                std::cout << "\t\t(" << OP_REMOVE << ") REMOVE: Remove value from dictionary\n";
+                std::cout << "\n\t\t(0) to Exit\n";
+
+                std::cout << "\n\t\t> ";
+
+                getValue(in);
+
+                if(in == 0){
+                    continue;
+                }
+                else if(in == OP_INSERT){
+                    Data value;
+
+                    std::cout << "\n\t\tInsert the [Value] to insert:\n";
+                    std::cout << "\n\t\t> ";
+
+                    getValue(value);
+
+                    if(con.Insert(value)){
+                        std::cout << "\n\t\tThe value was successfully added to the dictionary!\n";
+                    }
+                    else{
+                        std::cout << "\n\t\tInsert failed!\n";
+                    }
+                }
+                else if(in == OP_REMOVE){
+                    Data value;
+
+                    std::cout << "\n\t\tInsert the [Value] to remove:\n";
+                    std::cout << "\n\t\t> ";
+
+                    getValue(value);
+
+                    if(con.Remove(value)){
+                        std::cout << "\n\t\tThe value was successfully removed from the dictionary!\n";
+                    }
+                    else{
+                        std::cout << "\n\t\tRemove failed!\n";
+                    }
+                }
+                else{
+                    throw std::invalid_argument("");
+                }
 
             }
-            else if(parsed_input == OP_3){
+            else if(parsed_input == OP_LIST){
+                unsigned short in;
+                
+                std::cout << "\n\t\tSelect the list operation:\n";
 
+                std::cout << "\n\t\t(" << OP_INSERT_FRONT << ") INSERT AT FRONT: Insert value at the front of the list\n";
+                std::cout << "\t\t(" << OP_INSERT_BACK << ") INSERT AT BACK: Insert value at the back of the list\n";
+                std::cout << "\t\t(" << OP_FRONT_N_REMOVE << ") FRONT & REMOVE: Remove and receive value from the front of the list\n";
+                std::cout << "\n\t\t(0) to Exit\n";
+
+                std::cout << "\n\t\t> ";
+
+                getValue(in);
+
+                if(in == 0){
+                    continue;
+                }
+                else if(in == OP_INSERT_FRONT){
+                    Data value;
+
+                    std::cout << "\n\t\tInsert the [Value] to insert at front:\n";
+                    std::cout << "\n\t\t> ";
+
+                    getValue(value);
+
+                    con.InsertAtFront(value);
+
+                    std::cout << "\n\t\tThe value was successfully added to the front of the list!\n";
+                    
+                }
+                else if(in == OP_INSERT_BACK){
+                    Data value;
+
+                    std::cout << "\n\t\tInsert the [Value] to insert at back:\n";
+                    std::cout << "\n\t\t> ";
+
+                    getValue(value);
+
+                    con.InsertAtBack(value);
+
+                    std::cout << "\n\t\tThe value was successfully added to the back of the list!\n";
+                }
+                else if(in == OP_FRONT_N_REMOVE){
+
+                    Data res = con.FrontNRemove();
+                    std::cout << "\n\t\tFront: " << res << "\n";
+
+                    std::cout << "\n\t\tThe front of the list was successfully removed!\n";
+                }
+                else{
+                    throw std::invalid_argument("");
+                }
+                
             }
-            else if(parsed_input == OP_4){
-
-            }
-            else if(parsed_input == OP_5){
-
-            }
-            else if(parsed_input == OP_6){
-
+            else if(parsed_input == OP_FILL){
+                std::cout << "\n\t\tRandomizing container contents...\n\n";
+                fillList(con);
+                std::cout << "\n\t\tContainer successfully filled!\n\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
         catch(const std::logic_error& err){
-            std::cout << "\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -490,263 +614,159 @@ void testList(lasd::List<Data> & lst){
 }
 
 template <typename Data>
-void testStackVec(lasd::StackVec<Data> & stkvec){
+void testStack(lasd::Stack<Data> & con){
     const unsigned short OP_VIEW = 1;
-    const unsigned short OP_2 = 2;
-    const unsigned short OP_3 = 3;
-    const unsigned short OP_4 = 4;
-    const unsigned short OP_5 = 5;
-    const unsigned short OP_6 = 6;
+    const unsigned short OP_CLEAR = 2;
+    const unsigned short OP_PUSH = 3;
+    const unsigned short OP_TOP_N_POP = 4;
+    const unsigned short OP_FILL = 5;
 
-    std::string input;
     unsigned short parsed_input;
 
     do{
-        std::cout << "\n\t\t!~~~~~~~ STACKVEC ~~~~~~~!\n";
+        std::cout << "\n\t\t!~~~~~~~ STACK ~~~~~~~!\n";
 
         std::cout << "\n\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") View\n";
-        std::cout << "\t\t(" << OP_2 << ") a\n";
-        std::cout << "\t\t(" << OP_3 << ") a\n";
-        std::cout << "\t\t(" << OP_4 << ") a\n";
-        std::cout << "\t\t(" << OP_5 << ") a\n";
-        std::cout << "\t\t(" << OP_6 << ") a\n";
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
+        std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
+        std::cout << "\t\t(" << OP_PUSH << ") PUSH: Push value onto stack\n";
+        std::cout << "\t\t(" << OP_TOP_N_POP << ") TOP & POP: Pop value off stack and receive top\n";
+        std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
         std::cout << "\n\t\t(0) to Exit\n";
-        
+
         std::cout << "\n\t\t> ";
-        getline(std::cin, input);
 
         try{
-            parsed_input = std::stoi(input);
+            getValue(parsed_input);
 
             if(parsed_input == 0){
                 break;
             }
             else if(parsed_input == OP_VIEW){
-                std::cout << "\nViewing data structure...\n\n";
-                stkvec.View();
+                std::cout << "\n\t\tViewing container...\n\n";
+                con.View();
             }
-            else if(parsed_input == OP_2){
-
+            else if(parsed_input == OP_CLEAR){
+                con.Clear();
+                std::cout << "\n\t\tContainer successfully cleared!\n\n";
             }
-            else if(parsed_input == OP_3){
+            else if(parsed_input == OP_PUSH){
+                Data value;
 
+                std::cout << "\n\t\tInsert the [Value] to push onto the top of the stack:\n";
+                std::cout << "\n\t\t> ";
+
+                getValue(value);
+
+                con.Push(value);
+
+                std::cout << "\n\t\tThe value was successfully pushed onto the stack!\n\n";
             }
-            else if(parsed_input == OP_4){
-
+            else if(parsed_input == OP_TOP_N_POP){
+                Data res = con.TopNPop();
+                std::cout << "\n\t\tTop: " << res << "\n";
+                std::cout << "\n\t\tPop successful!\n\n";
             }
-            else if(parsed_input == OP_5){
-
-            }
-            else if(parsed_input == OP_6){
-
+            else if(parsed_input == OP_FILL){
+                std::cout << "\n\t\tRandomizing container contents...\n\n";
+                fillStack(con);
+                std::cout << "\n\t\tContainer successfully filled!\n\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
         catch(const std::logic_error& err){
-            std::cout << "\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
+
     
 }
 
 template <typename Data>
-void testStackLst(lasd::StackLst<Data> & stklst){
+void testQueue(lasd::Queue<Data> & con){
     const unsigned short OP_VIEW = 1;
-    const unsigned short OP_2 = 2;
-    const unsigned short OP_3 = 3;
-    const unsigned short OP_4 = 4;
-    const unsigned short OP_5 = 5;
-    const unsigned short OP_6 = 6;
+    const unsigned short OP_CLEAR = 2;
+    const unsigned short OP_ENQUEUE = 3;
+    const unsigned short OP_HEAD_N_DEQUEUE = 4;
+    const unsigned short OP_FILL = 5;
 
-    std::string input;
     unsigned short parsed_input;
 
     do{
-        std::cout << "\n\t\t!~~~~~~~ STACKLST ~~~~~~~!\n";
+        std::cout << "\n\t\t!~~~~~~~ QUEUE ~~~~~~~!\n";
 
         std::cout << "\n\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") View\n";
-        std::cout << "\t\t(" << OP_2 << ") a\n";
-        std::cout << "\t\t(" << OP_3 << ") a\n";
-        std::cout << "\t\t(" << OP_4 << ") a\n";
-        std::cout << "\t\t(" << OP_5 << ") a\n";
-        std::cout << "\t\t(" << OP_6 << ") a\n";
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
+        std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
+        std::cout << "\t\t(" << OP_ENQUEUE << ") ENQUEUE: Enqueue value\n";
+        std::cout << "\t\t(" << OP_HEAD_N_DEQUEUE << ") HEAD & DEQUEUE: Dequeue value and receive head\n";
+        std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
         std::cout << "\n\t\t(0) to Exit\n";
 
         std::cout << "\n\t\t> ";
-        getline(std::cin, input);
 
         try{
-            parsed_input = std::stoi(input);
+            getValue(parsed_input);
 
             if(parsed_input == 0){
                 break;
             }
             else if(parsed_input == OP_VIEW){
-                std::cout << "\nViewing data structure...\n\n";
-                stklst.View();
+                std::cout << "\n\t\tViewing container...\n\n";
+                con.View();
             }
-            else if(parsed_input == OP_2){
-
+            else if(parsed_input == OP_CLEAR){
+                con.Clear();
+                std::cout << "\n\t\tContainer successfully cleared!\n\n";
             }
-            else if(parsed_input == OP_3){
+            else if(parsed_input == OP_ENQUEUE){
+                Data value;
 
+                std::cout << "\n\t\tInsert the [Value] to enqueue:\n";
+                std::cout << "\n\t\t> ";
+
+                getValue(value);
+
+                con.Enqueue(value);
+
+                std::cout << "\n\t\tThe value was successfully enqueued!\n\n";
             }
-            else if(parsed_input == OP_4){
-
+            else if(parsed_input == OP_HEAD_N_DEQUEUE){
+                Data res = con.HeadNDequeue();
+                std::cout << "\n\t\tHead: " << res << "\n";
+                std::cout << "\n\t\tDequeue successful!\n\n";
             }
-            else if(parsed_input == OP_5){
-
-            }
-            else if(parsed_input == OP_6){
-
-            }
-            else{
-                throw std::invalid_argument("");
-            }
-        }
-        catch(const std::logic_error& err){
-            std::cout << "\t\t[!] Invalid option. Please retry.\n";
-        }
-
-    }while(true);
-    
-}
-
-template <typename Data>
-void testQueueVec(lasd::QueueVec<Data> & quevec){
-    const unsigned short OP_VIEW = 1;
-    const unsigned short OP_2 = 2;
-    const unsigned short OP_3 = 3;
-    const unsigned short OP_4 = 4;
-    const unsigned short OP_5 = 5;
-    const unsigned short OP_6 = 6;
-
-    std::string input;
-    unsigned short parsed_input;
-
-    do{
-        std::cout << "\n\t\t!~~~~~~~ QUEUEVEC ~~~~~~~!\n";
-        
-        std::cout << "\n\t\tSelect operation:\n";
-
-        std::cout << "\n\t\t(" << OP_VIEW << ") View\n";
-        std::cout << "\t\t(" << OP_2 << ") a\n";
-        std::cout << "\t\t(" << OP_3 << ") a\n";
-        std::cout << "\t\t(" << OP_4 << ") a\n";
-        std::cout << "\t\t(" << OP_5 << ") a\n";
-        std::cout << "\t\t(" << OP_6 << ") a\n";
-        std::cout << "\n\t\t(0) to Exit\n";
-
-        std::cout << "\n\t\t> ";
-        getline(std::cin, input);
-
-        try{
-            parsed_input = std::stoi(input);
-
-            if(parsed_input == 0){
-                break;
-            }
-            else if(parsed_input == OP_VIEW){
-                std::cout << "\nViewing data structure...\n\n";
-                quevec.View();
-            }
-            else if(parsed_input == OP_2){
-
-            }
-            else if(parsed_input == OP_3){
-
-            }
-            else if(parsed_input == OP_4){
-
-            }
-            else if(parsed_input == OP_5){
-
-            }
-            else if(parsed_input == OP_6){
-
+            else if(parsed_input == OP_FILL){
+                std::cout << "\n\t\tRandomizing container contents...\n\n";
+                fillQueue(con);
+                std::cout << "\n\t\tContainer successfully filled!\n\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
         catch(const std::logic_error& err){
-            std::cout << "\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
-    
-}
-
-template <typename Data>
-void testQueueLst(lasd::QueueLst<Data> & quelst){
-    const unsigned short OP_VIEW = 1;
-    const unsigned short OP_2 = 2;
-    const unsigned short OP_3 = 3;
-    const unsigned short OP_4 = 4;
-    const unsigned short OP_5 = 5;
-    const unsigned short OP_6 = 6;
-
-    std::string input;
-    unsigned short parsed_input;
-
-    do{
-        std::cout << "\n\t\t!~~~~~~~ QUEUELST ~~~~~~~!\n";
-        
-        std::cout << "\n\t\tSelect operation:\n";
-
-        std::cout << "\n\t\t(" << OP_VIEW << ") View\n";
-        std::cout << "\t\t(" << OP_2 << ") a\n";
-        std::cout << "\t\t(" << OP_3 << ") a\n";
-        std::cout << "\t\t(" << OP_4 << ") a\n";
-        std::cout << "\t\t(" << OP_5 << ") a\n";
-        std::cout << "\t\t(" << OP_6 << ") a\n";
-        std::cout << "\n\t\t(0) to Exit\n";
-        
-        std::cout << "\n\t\t> ";
-        getline(std::cin, input);
-
-        try{
-            parsed_input = std::stoi(input);
-
-            if(parsed_input == 0){
-                break;
-            }
-            else if(parsed_input == OP_VIEW){
-                std::cout << "\nViewing data structure...\n\n";
-                quelst.View();
-            }
-            else if(parsed_input == OP_2){
-
-            }
-            else if(parsed_input == OP_3){
-
-            }
-            else if(parsed_input == OP_4){
-
-            }
-            else if(parsed_input == OP_5){
-
-            }
-            else if(parsed_input == OP_6){
-
-            }
-            else{
-                throw std::invalid_argument("");
-            }
-        }
-        catch(const std::logic_error& err){
-            std::cout << "\t\t[!] Invalid option. Please retry.\n";
-        }
-
-    }while(true);
-    
 }
 
 
@@ -755,14 +775,14 @@ void testQueueLst(lasd::QueueLst<Data> & quelst){
 
 int generateInt(){
     std::default_random_engine gen(std::random_device{}());
-    std::uniform_int_distribution<int> int_dist(-100, 100);
+    std::uniform_int_distribution<int> int_dist(0, 10000);
 
     return int_dist(gen);
 }
 
 float generateFloat(){
     std::default_random_engine gen(std::random_device{}());
-    std::uniform_real_distribution<float> float_dist(-1, 1);
+    std::uniform_real_distribution<float> float_dist(0, 100);
 
     return float_dist(gen);
 }
@@ -807,11 +827,13 @@ void getValue(unsigned long & dat){
 }
 
 void getValue(float & dat){
+    std::string input;
 
+    getline(std::cin, input);
+    dat = std::stof(input);
 }
 
 void getValue(std::string & dat){
-
+    getline(std::cin, dat);
 }
-
 

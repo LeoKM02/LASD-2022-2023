@@ -218,7 +218,7 @@ public:
 
   inline void PostOrderMap(MutableMapFunctor) override; // Override MutablePostOrderMappableContainer member
 
-  inline void View() const noexcept override;
+  inline void View() const override;
 
 protected:
 

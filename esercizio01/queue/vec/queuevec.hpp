@@ -91,7 +91,7 @@ public:
 
   inline void Clear() override; // Override ClearableContainer member
 
-  inline void View() const noexcept override;
+  inline void View() const override;
 
 protected:
 

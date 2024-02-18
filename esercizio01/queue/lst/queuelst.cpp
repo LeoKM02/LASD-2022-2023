@@ -57,7 +57,11 @@ inline void QueueLst<Data>::Enqueue(Data&& dat) noexcept {
 }
 
 template<typename Data>
-inline void QueueLst<Data>::View() const noexcept{
+inline void QueueLst<Data>::View() const{
+    if(this->Empty()){
+        throw std::length_error("Empty container!");
+    }
+
     std::cout << "Size = " << this->Size() << "\n\n";
     
     this->Map([this](const Data& dat){

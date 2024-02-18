@@ -175,7 +175,11 @@ inline void QueueVec<Data>::Clear() {
 }
 
 template<typename Data>
-inline void QueueVec<Data>::View() const noexcept{
+inline void QueueVec<Data>::View() const{
+    if(Empty()){
+        throw std::length_error("Empty container!");
+    }
+
     std::cout << "Size = " << this->Size() << "\n\n";
 
     this->Map([this](const Data& dat){

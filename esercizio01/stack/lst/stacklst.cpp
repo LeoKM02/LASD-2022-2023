@@ -57,7 +57,11 @@ inline void StackLst<Data>::Push(Data&& dat) noexcept{
 } // Move of the value
 
 template<typename Data>
-inline void StackLst<Data>::View() const noexcept{
+inline void StackLst<Data>::View() const{
+    if(this->Empty()){
+        throw std::length_error("Empty container!");
+    }
+
     std::cout << "Size = " << this->Size() << "\n\n";
 
     this->Map([this](const Data& dat){

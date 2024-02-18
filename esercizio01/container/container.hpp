@@ -36,7 +36,7 @@ public:
 
   // Specific member functions
 
-  virtual void View() const noexcept = 0;
+  virtual void View() const = 0;
 
   virtual bool Empty() const noexcept {
     return (size == 0);

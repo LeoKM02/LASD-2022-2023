@@ -173,14 +173,22 @@ inline Data& Vector<Data>::Back(){
 
 template<typename Data>
 inline void Vector<Data>::Sort() {
+    if(Empty()){
+        throw std::length_error("Empty container!");
+    }
     MergeSort(0, Size()-1);
 }
 
 template<typename Data>
-inline void Vector<Data>::View() const noexcept{
-    unsigned long i = 0;
+inline void Vector<Data>::View() const{
+    if(Empty()){
+        throw std::length_error("Empty container!");
+    }
 
+    unsigned long i = 0;
     std::cout << "Size = " << this->Size() << "\n\n";
+    std::cout << "Front: " << this->Front() << "\n";
+    std::cout << "Back:  " << this->Back() << "\n\n";
 
     this->Map([&i](const Data& dat){
         std::cout << "[Index: " << i++ << "]     " << dat << "\n";
@@ -188,7 +196,7 @@ inline void Vector<Data>::View() const noexcept{
 }
 
 template<typename Data>
-inline void Vector<Data>::MergeSort(unsigned long p, unsigned long r){
+inline void Vector<Data>::MergeSort(const unsigned long p, const unsigned long r){
     unsigned long q;
     if(p < r){
         q = (p+r)/2;
@@ -199,33 +207,39 @@ inline void Vector<Data>::MergeSort(unsigned long p, unsigned long r){
 }
 
 template<typename Data>
-inline void Vector<Data>::Merge(unsigned long p, unsigned long q, unsigned long r){
-    unsigned long x, y, z;
-    Data* temp = new Data[r-p+1]{};
-    x = p;
-    y = q+1;
-    z = 0;
+inline void Vector<Data>::Merge(const unsigned long p, const unsigned long q, const unsigned long r){
 
-    while(x<=q && y<=r){
-        if(elements[x] < elements[y]){
-            temp[z] = elements[x++];
+    unsigned long n1 = q-p+1;
+    unsigned long n2 = r-q;
+    unsigned long i, j, k;
+
+    Data L[n1], M[n2];
+
+    for (i = 0; i < n1; ++i)
+        L[i] = elements[p+i];
+    for (j = 0; j < n2; ++j)
+        M[j] = elements[q+1+j];
+
+    i = 0;
+    j = 0;
+    k = p;
+
+    while (i < n1 && j < n2) {
+        if (L[i] <= M[j]) {
+            elements[k] = L[i++];
+        } else {
+            elements[k] = M[j++];
         }
-        else{
-            temp[z] = elements[y++];
-        }
-        ++z;
+        ++k;
     }
 
-    while(x<=q){
-        temp[z++] = elements[x++];
+    while (i < n1) {
+        elements[k++] = L[i++];
     }
 
-    while(y<=r){
-        temp[z++] = elements[y++];
+    while (j < n2) {
+        elements[k++] = M[j++];
     }
-
-    std::swap(elements, temp);
-    delete[] temp;
 }
 
 /* ************************************************************************** */

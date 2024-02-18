@@ -99,7 +99,7 @@ public:
 
   inline void Sort() override; // Override SortableLinearContainer member
 
-  inline void View() const noexcept override;
+  inline void View() const override;
 
 protected:
 
