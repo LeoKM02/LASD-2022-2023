@@ -100,8 +100,19 @@ void stestBinaryTreeFloat(lasd::MutableBinaryTree<double>& bt, uint& testnum, ui
     Terminated(loctestnum, loctesterr, itr1, false);
     ++itr1;
     GetItrValue(loctestnum, loctesterr, itr1, true, 0.3);
-    itr1.Reset();
+    itr1.Reset(); 
+    //
+    std::cout << "it resettato" << std::endl;
+    GetItrValue(loctestnum, loctesterr, itr1, true, 1.2);
+    //
     lasd::BTPreOrderMutableIterator<double> newitr1(move(itr1));
+    //
+    std::cout << "aaaaaaaaaaaaaaaaaaaaa" << std::endl;
+    GetItrValue(loctestnum, loctesterr, newitr1, true, 1.2);
+    std::cout << newitr1.Terminated() << std::endl;
+    //++newitr1; ++newitr1; ++newitr1; ++newitr1;
+
+    //del ^
     itr1.Reset();
 
     lasd::BTBreadthMutableIterator<double> itr2(bt);
@@ -120,6 +131,13 @@ void stestBinaryTreeFloat(lasd::MutableBinaryTree<double>& bt, uint& testnum, ui
     GetItrValue(loctestnum, loctesterr, itr2, true, 0.3);
     itr2.Reset();
     lasd::BTBreadthMutableIterator<double> newitr2(move(itr2));
+    /*
+    std::cout << "aaaaaaaaaaaaaaaaaaaaa" << std::endl;
+    GetItrValue(loctestnum, loctesterr, newitr2, true, 1.2);
+    ++newitr2;
+    GetItrValue(loctestnum, loctesterr, newitr2, true, 0.3);  
+    newitr2.Reset();
+    */
     itr2.Reset();
 
     lasd::BTInOrderMutableIterator<double> itr3(bt);
