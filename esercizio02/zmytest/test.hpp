@@ -37,7 +37,7 @@ void fillList(lasd::List<float> &);
 void fillList(lasd::List<std::string> &);
 
 template <typename Data>
-void testBinaryTree(lasd::BinaryTree<Data> &);
+void testBinaryTree(lasd::MutableBinaryTree<Data> &);
 template <typename Data>
 void testBST(lasd::BST<Data> &);
 

@@ -107,6 +107,8 @@ public:
 
   virtual void Clear() override; // Override ClearableContainer member
 
+  void View() const override;
+
 protected:
 
   // Auxiliary member functions

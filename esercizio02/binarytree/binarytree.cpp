@@ -1,3 +1,4 @@
+#include <iostream>
 
 namespace lasd {
 
@@ -94,6 +95,39 @@ void BinaryTree<Data>::BreadthMap(MapFunctor fun) const {
     if(!this->Empty()) {
         BreadthMap(fun, &this->Root());
     }
+}
+
+template<typename Data>
+void BinaryTree<Data>::View() const{
+    if(this->Empty()){
+        throw std::length_error("Empty tree!");
+    }
+
+    std::cout << "Size = " << this->Size() << "\n\n";
+
+    std::cout << "Root: " << this->Root().Element() << "\n\n";
+    
+    std::cout << "PreOrder Visit:\n";
+    this->PreOrderMap([](const Data& dat){
+        std::cout << dat << " ";
+    });
+
+    std::cout << "\n\nPostOrder Visit:\n";
+    this->PostOrderMap([](const Data& dat){
+        std::cout << dat << " ";
+    });
+
+    std::cout << "\n\nInOrder Visit:\n";
+    this->InOrderMap([](const Data& dat){
+        std::cout << dat << " ";
+    });
+
+    std::cout << "\n\nBreadth Visit:\n";
+    this->BreadthMap([](const Data& dat){
+        std::cout << dat << " ";
+    });
+
+    std::cout << "\n";
 }
 
 template <typename Data>

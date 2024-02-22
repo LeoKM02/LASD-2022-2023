@@ -188,520 +188,539 @@ void fillList(lasd::List<std::string> & lst){
 
 
 template <typename Data>
-void testBinaryTree(lasd::BinaryTree<Data> &){
+void testBinaryTree(lasd::MutableBinaryTree<Data> & con){
+    const unsigned short OP_VIEW = 1;
+    const unsigned short OP_CLEAR = 2;
+    const unsigned short OP_EXISTS = 3;
+    const unsigned short OP_ITER = 4;
 
+    unsigned short parsed_input;
+
+    do{
+        std::cout << "\n\t\t!~~~~~~~ BINARY TREE ~~~~~~~!\n";
+
+        std::cout << "\n\t\tSelect operation:\n";
+
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
+        std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
+        std::cout << "\t\t(" << OP_EXISTS << ") EXISTS: Check existence of value\n";
+        std::cout << "\t\t(" << OP_ITER << ") ITER: Open iterator testing suite\n";
+        std::cout << "\n\t\t(0) to Exit\n";
+
+        std::cout << "\n\t\t> ";
+
+        try{
+            getValue(parsed_input);
+
+            if(parsed_input == 0){
+                break;
+            }
+            else if(parsed_input == OP_VIEW){
+                std::cout << "\n\t\tViewing container...\n\n";
+                con.View();
+            }
+            else if(parsed_input == OP_CLEAR){
+                con.Clear();
+                std::cout << "\n\t\tContainer successfully cleared!\n\n";
+            }
+            else if(parsed_input == OP_EXISTS){
+
+                Data value;
+
+                std::cout << "\n\t\tInsert the [Value] to search inside the container:\n";
+                std::cout << "\n\t\t> ";
+
+                getValue(value);
+
+                if(con.Exists(value)){
+                    std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
+                }
+                else{
+                    std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
+                }
+            }
+            else if(parsed_input == OP_ITER){
+                unsigned short in;
+
+                std::cout << "\n\t\tSelect iterator:\n";
+
+                std::cout << "\n\t\t(" << ITERPRE_ID << ") PreOrder Iterator\n";
+                std::cout << "\t\t(" << ITERIN_ID << ") InOrder Iterator\n";
+                std::cout << "\t\t(" << ITERPOST_ID << ") PostOrder Iterator\n";
+                std::cout << "\t\t(" << ITERBREADTH_ID << ") Breadth Iterator\n";
+                std::cout << "\n\t\t(0) to Exit\n";
+
+                std::cout << "\n\t\t> ";
+
+                getValue(in);
+
+                if(in == ITERPRE_ID){
+                    lasd::BTPreOrderIterator<Data> iter(con);
+                    testPreOrderIterator(iter);
+                }
+                else if(in == ITERIN_ID){
+                    lasd::BTInOrderIterator<Data> iter(con);
+                    testInOrderIterator(iter);
+                }
+                else if(in == ITERPOST_ID){
+                    lasd::BTPostOrderIterator<Data> iter(con);
+                    testPostOrderIterator(iter);
+                }
+                else if(in == ITERBREADTH_ID){
+                    lasd::BTBreadthIterator<Data> iter(con);
+                    testBreadthIterator(iter);
+                }
+                else{
+                    throw std::invalid_argument("");
+                }
+            }
+            else{
+                throw std::invalid_argument("");
+            }
+        }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::logic_error& err){
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+        }
+
+    }while(true);
 }
 
 template <typename Data>
-void testBST(lasd::BST<Data> &){
-
-}
-
-
-
-
-
-template <typename Data>
-void testPreOrderIterator(lasd::BTPreOrderIterator<Data> &){
-
-}
-
-template <typename Data>
-void testPostOrderIterator(lasd::BTPostOrderIterator<Data> &){
-
-}
-
-template <typename Data>
-void testInOrderIterator(lasd::BTInOrderIterator<Data> &){
-
-}
-
-template <typename Data>
-void testBreadthIterator(lasd::BTBreadthIterator<Data> &){
+void testBST(lasd::BST<Data>& con){
+    const unsigned short OP_VIEW = 1;
+    const unsigned short OP_CLEAR = 2;
+    const unsigned short OP_EXISTS = 3;
+    const unsigned short OP_ITER = 4;
+    const unsigned short OP_INSERT = 5;
+    const unsigned short OP_REMOVE = 6;
+    const unsigned short OP_MIN_N_REMOVE = 7;
+    const unsigned short OP_MAX_N_REMOVE = 8;
+    const unsigned short OP_PREDECESSOR = 9;
+    const unsigned short OP_PREDECESSOR_N_REMOVE = 10;
+    const unsigned short OP_SUCCESSOR = 11;
+    const unsigned short OP_SUCCESSOR_N_REMOVE = 12;
     
+    unsigned short parsed_input;
+
+    do{
+        std::cout << "\n\t\t!~~~~~~~ BINARY SEARCH TREE ~~~~~~~!\n";
+
+        std::cout << "\n\t\tSelect operation:\n";
+
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
+        std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
+        std::cout << "\t\t(" << OP_EXISTS << ") EXISTS: Check existence of value\n";
+        std::cout << "\t\t(" << OP_ITER << ") ITER: Open iterator testing suite\n";
+        std::cout << "\t\t(" << OP_INSERT << ") INSERT: Insert new value into tree\n";
+        std::cout << "\t\t(" << OP_REMOVE << ") REMOVE: Remove existing value from tree\n";
+        std::cout << "\t\t(" << OP_MIN_N_REMOVE << ") MIN & REMOVE: Get minimum value\n";
+        std::cout << "\t\t(" << OP_MAX_N_REMOVE << ") MAX & REMOVE: Get maximum value\n";
+        std::cout << "\t\t(" << OP_PREDECESSOR << ") PREDECESSOR: Get predecessor\n";
+        std::cout << "\t\t(" << OP_PREDECESSOR_N_REMOVE << ") PREDECESSOR & REMOVE: Remove predecessor\n";
+        std::cout << "\t\t(" << OP_SUCCESSOR << ") SUCCESSOR: Get successor\n";
+        std::cout << "\t\t(" << OP_SUCCESSOR_N_REMOVE << ") SUCCESSOR & REMOVE: Remove successor\n";
+        std::cout << "\n\t\t(0) to Exit\n";
+
+        std::cout << "\n\t\t> ";
+
+        try{
+            getValue(parsed_input);
+
+            if(parsed_input == 0){
+                break;
+            }
+            else if(parsed_input == OP_VIEW){
+                std::cout << "\n\t\tViewing container...\n\n";
+                con.View();
+            }
+            else if(parsed_input == OP_CLEAR){
+                con.Clear();
+                std::cout << "\n\t\tContainer successfully cleared!\n\n";
+            }
+            else if(parsed_input == OP_EXISTS){
+                Data value;
+
+                std::cout << "\n\t\tInsert the [Value] to search inside the container:\n";
+                std::cout << "\n\t\t> ";
+
+                getValue(value);
+
+                if(con.Exists(value)){
+                    std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
+                }
+                else{
+                    std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
+                }
+            }
+            else if(parsed_input == OP_ITER){
+                unsigned short in;
+
+                std::cout << "\n\t\tSelect iterator:\n";
+
+                std::cout << "\n\t\t(" << ITERPRE_ID << ") PreOrder Iterator\n";
+                std::cout << "\t\t(" << ITERIN_ID << ") InOrder Iterator\n";
+                std::cout << "\t\t(" << ITERPOST_ID << ") PostOrder Iterator\n";
+                std::cout << "\t\t(" << ITERBREADTH_ID << ") Breadth Iterator\n";
+                std::cout << "\n\t\t(0) to Exit\n";
+
+                std::cout << "\n\t\t> ";
+
+                getValue(in);
+
+                if(in == ITERPRE_ID){
+                    lasd::BTPreOrderIterator<Data> iter(con);
+                    testPreOrderIterator(iter);
+                }
+                else if(in == ITERIN_ID){
+                    lasd::BTInOrderIterator<Data> iter(con);
+                    testInOrderIterator(iter);
+                }
+                else if(in == ITERPOST_ID){
+                    lasd::BTPostOrderIterator<Data> iter(con);
+                    testPostOrderIterator(iter);
+                }
+                else if(in == ITERBREADTH_ID){
+                    lasd::BTBreadthIterator<Data> iter(con);
+                    testBreadthIterator(iter);
+                }
+                else{
+                    throw std::invalid_argument("");
+                }
+            }
+            else if(parsed_input == OP_INSERT){
+                Data value;
+
+                std::cout << "\n\t\tInsert [Value]:\n\t\t> ";
+                getValue(value);
+
+                if(con.Insert(value)){
+                    std::cout << "\n\t\tValue inserted successfully!\n";
+                }
+                else{
+                    std::cout << "\n\t\tInsert failed!\n";
+                }
+            }
+            else if(parsed_input == OP_REMOVE){
+                Data value;
+
+                std::cout << "\n\t\tInsert [Value]:\n\t\t> ";
+                getValue(value);
+
+                if(con.Remove(value)){
+                    std::cout << "\n\t\tValue removed successfully!\n";
+                }
+                else{
+                    std::cout << "\n\t\tInsert failed!\n";
+                }
+            }
+            else if(parsed_input == OP_MIN_N_REMOVE){
+                Data min = con.MinNRemove();
+
+                std::cout << "\n\t\tMin: " << min << "\n";
+                std::cout << "\n\t\tMin successfully removed from tree!\n";
+            }
+            else if(parsed_input == OP_MAX_N_REMOVE){
+                Data min = con.MaxNRemove();
+
+                std::cout << "\n\t\tMax: " << min << "\n";
+                std::cout << "\n\t\tMax successfully removed from tree!\n";
+            }
+            else if(parsed_input == OP_PREDECESSOR){
+                Data value;
+
+                std::cout << "\n\t\tInsert [Value]:\n\t\t> ";
+                getValue(value);
+
+                Data pred = con.Predecessor(value);
+                std::cout << "\n\t\tPredecessor of " << value << ": " << pred << "\n";
+            }
+            else if(parsed_input == OP_PREDECESSOR_N_REMOVE){
+                Data value;
+
+                std::cout << "\n\t\tInsert [Value]:\n\t\t> ";
+                getValue(value);
+
+                Data pred = con.PredecessorNRemove(value);
+                std::cout << "\n\t\tPredecessor of " << value << ": " << pred << "\n";
+                std::cout << "\n\t\tPredecessor successfully removed from tree!\n";
+            }
+            else if(parsed_input == OP_SUCCESSOR){
+                Data value;
+
+                std::cout << "\n\t\tInsert [Value]:\n\t\t> ";
+                getValue(value);
+
+                Data succ = con.Successor(value);
+                std::cout << "\n\t\tSuccessor of " << value << ": " << succ << "\n";
+            }
+            else if(parsed_input == OP_SUCCESSOR_N_REMOVE){
+                Data value;
+
+                std::cout << "\n\t\tInsert [Value]:\n\t\t> ";
+                getValue(value);
+
+                Data succ = con.SuccessorNRemove(value);
+                std::cout << "\n\t\tSuccessor of " << value << ": " << succ << "\n";
+                std::cout << "\n\t\tSuccessor successfully removed from tree!\n";
+            }
+            else{
+                throw std::invalid_argument("");
+            }
+        }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::logic_error& err){
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+        }
+
+    }while(true);
 }
 
-// template <typename Data>
-// void testVector(lasd::Vector<Data> & con){
-//     const unsigned short OP_VIEW = 1;
-//     const unsigned short OP_CLEAR = 2;
-//     const unsigned short OP_RESIZE = 3;
-//     const unsigned short OP_EXISTS = 4;
-//     const unsigned short OP_ASSIGN = 5;
-//     const unsigned short OP_SORT = 6;
-//     const unsigned short OP_FILL = 7;
-
-//     unsigned short parsed_input;
-
-//     do{
-//         std::cout << "\n\t\t!~~~~~~~ VECTOR ~~~~~~~!\n";
-
-//         std::cout << "\n\t\tSelect operation:\n";
-
-//         std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
-//         std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
-//         std::cout << "\t\t(" << OP_RESIZE << ") RESIZE: Resize container\n";
-//         std::cout << "\t\t(" << OP_EXISTS << ") EXISTS: Check existence of value\n";
-//         std::cout << "\t\t(" << OP_ASSIGN << ") ASSIGN: Assign value to cell\n";
-//         std::cout << "\t\t(" << OP_SORT << ") SORT: Sort container\n";
-//         std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
-//         std::cout << "\n\t\t(0) to Exit\n";
-
-//         std::cout << "\n\t\t> ";
-
-//         try{
-//             getValue(parsed_input);
-
-//             if(parsed_input == 0){
-//                 break;
-//             }
-//             else if(parsed_input == OP_VIEW){
-//                 std::cout << "\n\t\tViewing container...\n\n";
-//                 con.View();
-//             }
-//             else if(parsed_input == OP_CLEAR){
-//                 con.Clear();
-//                 std::cout << "\n\t\tContainer successfully cleared!\n\n";
-//             }
-//             else if(parsed_input == OP_RESIZE){
-
-//                 unsigned long newsize;
-
-//                 std::cout << "\n\t\tInsert new [Size] for container (0 - 1000000) > ";
-
-//                 getValue(newsize);
-
-//                 if(newsize > 1000000){
-//                     throw std::out_of_range("Size value too big!");
-//                 }
-
-//                 con.Resize(newsize);
-
-//                 std::cout << "\n\t\tContainer successfully resized!\n\n";
-//             }
-//             else if(parsed_input == OP_EXISTS){
-
-//                 Data value;
-
-//                 std::cout << "\n\t\tInsert the [Value] to search inside the container:\n";
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(value);
-
-//                 if(con.Exists(value)){
-//                     std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
-//                 }
-//                 else{
-//                     std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
-//                 }
-//             }
-//             else if(parsed_input == OP_ASSIGN){
-//                 unsigned long index;
-//                 Data newvalue;
-
-//                 std::cout << "\n\t\tInsert the [Index] of the cell:\n";
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(index);
-
-//                 std::cout << "\n\t\tAssign the [Value]:\n";
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(newvalue);
-
-//                 con[index] = newvalue;
-
-//                 std::cout << "\n\t\tContainer successfully updated!\n\n";
-//             }
-//             else if(parsed_input == OP_SORT){
-//                 con.Sort();
-//                 std::cout << "\n\t\tContainer successfully sorted!\n\n";
-//             }
-//             else if(parsed_input == OP_FILL){
-//                 std::cout << "\n\t\tRandomizing container contents...\n\n";
-//                 fillVector(con);
-//                 std::cout << "\n\t\tContainer successfully filled!\n\n";
-//             }
-//             else{
-//                 throw std::invalid_argument("");
-//             }
-//         }
-//         catch(const std::length_error& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::out_of_range& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::logic_error& err){
-//             std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
-//         }
-
-//     }while(true);
-
-// }
-
-// template <typename Data>
-// void testList(lasd::List<Data> & con){
-//     const unsigned short OP_VIEW = 1;
-//     const unsigned short OP_CLEAR = 2;
-//     const unsigned short OP_EXISTS = 3;
-//     const unsigned short OP_DICTIONARY = 4;
-//     const unsigned short OP_LIST = 5;
-//     const unsigned short OP_FILL = 6;
-
-//     const unsigned short OP_INSERT = 1;
-//     const unsigned short OP_REMOVE = 2;
-
-//     const unsigned short OP_INSERT_FRONT = 1;
-//     const unsigned short OP_INSERT_BACK = 2;
-//     const unsigned short OP_FRONT_N_REMOVE = 3;
-
-//     unsigned short parsed_input;
-
-//     do{
-//         std::cout << "\n\t\t!~~~~~~~ LIST ~~~~~~~!\n";
-
-//         std::cout << "\n\t\tSelect operation:\n";
-
-//         std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
-//         std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
-//         std::cout << "\t\t(" << OP_EXISTS << ") EXISTS: Check existence of value\n";
-//         std::cout << "\t\t(" << OP_DICTIONARY << ") DICTIONARY: Access to dictionary specific functions\n";
-//         std::cout << "\t\t(" << OP_LIST << ") LIST: Access to list specific functions\n";
-//         std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
-//         std::cout << "\n\t\t(0) to Exit\n";
-
-//         std::cout << "\n\t\t> ";
-
-//         try{
-//             getValue(parsed_input);
-
-//             if(parsed_input == 0){
-//                 break;
-//             }
-//             else if(parsed_input == OP_VIEW){
-//                 std::cout << "\n\t\tViewing container...\n\n";
-//                 con.View();
-//             }
-//             else if(parsed_input == OP_CLEAR){
-//                 con.Clear();
-//                 std::cout << "\n\t\tContainer successfully cleared!\n\n";
-//             }
-//             else if(parsed_input == OP_EXISTS){
-
-//                 Data value;
-
-//                 std::cout << "\n\t\tInsert the [Value] to search inside the container:\n";
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(value);
-
-//                 if(con.Exists(value)){
-//                     std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
-//                 }
-//                 else{
-//                     std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
-//                 }
-//             }
-//             else if(parsed_input == OP_DICTIONARY){
-
-//                 unsigned short in;
-
-//                 std::cout << "\n\t\tSelect the dictionary operation:\n";
-
-//                 std::cout << "\n\t\t(" << OP_INSERT << ") INSERT: Insert value into dictionary\n";
-//                 std::cout << "\t\t(" << OP_REMOVE << ") REMOVE: Remove value from dictionary\n";
-//                 std::cout << "\n\t\t(0) to Exit\n";
-
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(in);
-
-//                 if(in == 0){
-//                     continue;
-//                 }
-//                 else if(in == OP_INSERT){
-//                     Data value;
-
-//                     std::cout << "\n\t\tInsert the [Value] to insert:\n";
-//                     std::cout << "\n\t\t> ";
-
-//                     getValue(value);
-
-//                     if(con.Insert(value)){
-//                         std::cout << "\n\t\tThe value was successfully added to the dictionary!\n";
-//                     }
-//                     else{
-//                         std::cout << "\n\t\tInsert failed!\n";
-//                     }
-//                 }
-//                 else if(in == OP_REMOVE){
-//                     Data value;
-
-//                     std::cout << "\n\t\tInsert the [Value] to remove:\n";
-//                     std::cout << "\n\t\t> ";
-
-//                     getValue(value);
-
-//                     if(con.Remove(value)){
-//                         std::cout << "\n\t\tThe value was successfully removed from the dictionary!\n";
-//                     }
-//                     else{
-//                         std::cout << "\n\t\tRemove failed!\n";
-//                     }
-//                 }
-//                 else{
-//                     throw std::invalid_argument("");
-//                 }
-
-//             }
-//             else if(parsed_input == OP_LIST){
-//                 unsigned short in;
-                
-//                 std::cout << "\n\t\tSelect the list operation:\n";
-
-//                 std::cout << "\n\t\t(" << OP_INSERT_FRONT << ") INSERT AT FRONT: Insert value at the front of the list\n";
-//                 std::cout << "\t\t(" << OP_INSERT_BACK << ") INSERT AT BACK: Insert value at the back of the list\n";
-//                 std::cout << "\t\t(" << OP_FRONT_N_REMOVE << ") FRONT & REMOVE: Remove and receive value from the front of the list\n";
-//                 std::cout << "\n\t\t(0) to Exit\n";
-
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(in);
-
-//                 if(in == 0){
-//                     continue;
-//                 }
-//                 else if(in == OP_INSERT_FRONT){
-//                     Data value;
-
-//                     std::cout << "\n\t\tInsert the [Value] to insert at front:\n";
-//                     std::cout << "\n\t\t> ";
-
-//                     getValue(value);
-
-//                     con.InsertAtFront(value);
-
-//                     std::cout << "\n\t\tThe value was successfully added to the front of the list!\n";
-                    
-//                 }
-//                 else if(in == OP_INSERT_BACK){
-//                     Data value;
-
-//                     std::cout << "\n\t\tInsert the [Value] to insert at back:\n";
-//                     std::cout << "\n\t\t> ";
-
-//                     getValue(value);
-
-//                     con.InsertAtBack(value);
-
-//                     std::cout << "\n\t\tThe value was successfully added to the back of the list!\n";
-//                 }
-//                 else if(in == OP_FRONT_N_REMOVE){
-
-//                     Data res = con.FrontNRemove();
-//                     std::cout << "\n\t\tFront: " << res << "\n";
-
-//                     std::cout << "\n\t\tThe front of the list was successfully removed!\n";
-//                 }
-//                 else{
-//                     throw std::invalid_argument("");
-//                 }
-                
-//             }
-//             else if(parsed_input == OP_FILL){
-//                 std::cout << "\n\t\tRandomizing container contents...\n\n";
-//                 fillList(con);
-//                 std::cout << "\n\t\tContainer successfully filled!\n\n";
-//             }
-//             else{
-//                 throw std::invalid_argument("");
-//             }
-//         }
-//         catch(const std::length_error& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::out_of_range& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::logic_error& err){
-//             std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
-//         }
-
-//     }while(true);
-    
-// }
-
-// template <typename Data>
-// void testStack(lasd::Stack<Data> & con){
-//     const unsigned short OP_VIEW = 1;
-//     const unsigned short OP_CLEAR = 2;
-//     const unsigned short OP_PUSH = 3;
-//     const unsigned short OP_TOP_N_POP = 4;
-//     const unsigned short OP_FILL = 5;
-
-//     unsigned short parsed_input;
-
-//     do{
-//         std::cout << "\n\t\t!~~~~~~~ STACK ~~~~~~~!\n";
-
-//         std::cout << "\n\t\tSelect operation:\n";
-
-//         std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
-//         std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
-//         std::cout << "\t\t(" << OP_PUSH << ") PUSH: Push value onto stack\n";
-//         std::cout << "\t\t(" << OP_TOP_N_POP << ") TOP & POP: Pop value off stack and receive top\n";
-//         std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
-//         std::cout << "\n\t\t(0) to Exit\n";
-
-//         std::cout << "\n\t\t> ";
-
-//         try{
-//             getValue(parsed_input);
-
-//             if(parsed_input == 0){
-//                 break;
-//             }
-//             else if(parsed_input == OP_VIEW){
-//                 std::cout << "\n\t\tViewing container...\n\n";
-//                 con.View();
-//             }
-//             else if(parsed_input == OP_CLEAR){
-//                 con.Clear();
-//                 std::cout << "\n\t\tContainer successfully cleared!\n\n";
-//             }
-//             else if(parsed_input == OP_PUSH){
-//                 Data value;
-
-//                 std::cout << "\n\t\tInsert the [Value] to push onto the top of the stack:\n";
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(value);
-
-//                 con.Push(value);
-
-//                 std::cout << "\n\t\tThe value was successfully pushed onto the stack!\n\n";
-//             }
-//             else if(parsed_input == OP_TOP_N_POP){
-//                 Data res = con.TopNPop();
-//                 std::cout << "\n\t\tTop: " << res << "\n";
-//                 std::cout << "\n\t\tPop successful!\n\n";
-//             }
-//             else if(parsed_input == OP_FILL){
-//                 std::cout << "\n\t\tRandomizing container contents...\n\n";
-//                 fillStack(con);
-//                 std::cout << "\n\t\tContainer successfully filled!\n\n";
-//             }
-//             else{
-//                 throw std::invalid_argument("");
-//             }
-//         }
-//         catch(const std::length_error& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::out_of_range& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::logic_error& err){
-//             std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
-//         }
-
-//     }while(true);
-
-    
-// }
-
-// template <typename Data>
-// void testQueue(lasd::Queue<Data> & con){
-//     const unsigned short OP_VIEW = 1;
-//     const unsigned short OP_CLEAR = 2;
-//     const unsigned short OP_ENQUEUE = 3;
-//     const unsigned short OP_HEAD_N_DEQUEUE = 4;
-//     const unsigned short OP_FILL = 5;
-
-//     unsigned short parsed_input;
-
-//     do{
-//         std::cout << "\n\t\t!~~~~~~~ QUEUE ~~~~~~~!\n";
-
-//         std::cout << "\n\t\tSelect operation:\n";
-
-//         std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View container\n";
-//         std::cout << "\t\t(" << OP_CLEAR << ") CLEAR: Clear container\n";
-//         std::cout << "\t\t(" << OP_ENQUEUE << ") ENQUEUE: Enqueue value\n";
-//         std::cout << "\t\t(" << OP_HEAD_N_DEQUEUE << ") HEAD & DEQUEUE: Dequeue value and receive head\n";
-//         std::cout << "\t\t(" << OP_FILL << ") FILL: Populate container with randomized values\n";
-//         std::cout << "\n\t\t(0) to Exit\n";
-
-//         std::cout << "\n\t\t> ";
-
-//         try{
-//             getValue(parsed_input);
-
-//             if(parsed_input == 0){
-//                 break;
-//             }
-//             else if(parsed_input == OP_VIEW){
-//                 std::cout << "\n\t\tViewing container...\n\n";
-//                 con.View();
-//             }
-//             else if(parsed_input == OP_CLEAR){
-//                 con.Clear();
-//                 std::cout << "\n\t\tContainer successfully cleared!\n\n";
-//             }
-//             else if(parsed_input == OP_ENQUEUE){
-//                 Data value;
-
-//                 std::cout << "\n\t\tInsert the [Value] to enqueue:\n";
-//                 std::cout << "\n\t\t> ";
-
-//                 getValue(value);
-
-//                 con.Enqueue(value);
-
-//                 std::cout << "\n\t\tThe value was successfully enqueued!\n\n";
-//             }
-//             else if(parsed_input == OP_HEAD_N_DEQUEUE){
-//                 Data res = con.HeadNDequeue();
-//                 std::cout << "\n\t\tHead: " << res << "\n";
-//                 std::cout << "\n\t\tDequeue successful!\n\n";
-//             }
-//             else if(parsed_input == OP_FILL){
-//                 std::cout << "\n\t\tRandomizing container contents...\n\n";
-//                 fillQueue(con);
-//                 std::cout << "\n\t\tContainer successfully filled!\n\n";
-//             }
-//             else{
-//                 throw std::invalid_argument("");
-//             }
-//         }
-//         catch(const std::length_error& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::out_of_range& err){
-//             std::cout << "\n\t\t[!] " << err.what() << "\n";
-//         }
-//         catch(const std::logic_error& err){
-//             std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
-//         }
-
-//     }while(true);
-// }
 
 
 
+
+template <typename Data>
+void testPreOrderIterator(lasd::BTPreOrderIterator<Data> & iter){
+    const unsigned short OP_VIEW = 1;
+    const unsigned short OP_INCREMENT = 2;
+    const unsigned short OP_RESET = 3;
+
+    unsigned short parsed_input;
+
+    do{
+        std::cout << "\n\t\t!~~~~~~~ PREORDER ITERATOR ~~~~~~~!\n";
+
+        std::cout << "\n\t\tSelect operation:\n";
+
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t(0) to Exit\n";
+
+        std::cout << "\n\t\t> ";
+
+        try{
+            getValue(parsed_input);
+
+            if(parsed_input == 0){
+                break;
+            }
+            else if(parsed_input == OP_VIEW){
+                Data currelem = *iter;
+                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+            }
+            else if(parsed_input == OP_INCREMENT){
+                ++iter;
+                std::cout << "\n\t\tIterator incremented!\n";
+            }
+            else if(parsed_input == OP_RESET){
+                iter.Reset();
+                std::cout << "\n\t\tIterator reset!\n";
+            }
+            else{
+                throw std::invalid_argument("");
+            }
+        }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::logic_error& err){
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+        }
+
+    }while(true);
+}
+
+template <typename Data>
+void testPostOrderIterator(lasd::BTPostOrderIterator<Data> & iter){
+    const unsigned short OP_VIEW = 1;
+    const unsigned short OP_INCREMENT = 2;
+    const unsigned short OP_RESET = 3;
+
+    unsigned short parsed_input;
+
+    do{
+        std::cout << "\n\t\t!~~~~~~~ POSTORDER ITERATOR ~~~~~~~!\n";
+
+        std::cout << "\n\t\tSelect operation:\n";
+
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t(0) to Exit\n";
+
+        std::cout << "\n\t\t> ";
+
+        try{
+            getValue(parsed_input);
+
+            if(parsed_input == 0){
+                break;
+            }
+            else if(parsed_input == OP_VIEW){
+                Data currelem = *iter;
+                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+            }
+            else if(parsed_input == OP_INCREMENT){
+                ++iter;
+                std::cout << "\n\t\tIterator incremented!\n";
+            }
+            else if(parsed_input == OP_RESET){
+                iter.Reset();
+                std::cout << "\n\t\tIterator reset!\n";
+            }
+            else{
+                throw std::invalid_argument("");
+            }
+        }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::logic_error& err){
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+        }
+
+    }while(true);
+}
+
+template <typename Data>
+void testInOrderIterator(lasd::BTInOrderIterator<Data> & iter){
+    const unsigned short OP_VIEW = 1;
+    const unsigned short OP_INCREMENT = 2;
+    const unsigned short OP_RESET = 3;
+
+    unsigned short parsed_input;
+
+    do{
+        std::cout << "\n\t\t!~~~~~~~ INORDER ITERATOR ~~~~~~~!\n";
+
+        std::cout << "\n\t\tSelect operation:\n";
+
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t(0) to Exit\n";
+
+        std::cout << "\n\t\t> ";
+
+        try{
+            getValue(parsed_input);
+
+            if(parsed_input == 0){
+                break;
+            }
+            else if(parsed_input == OP_VIEW){
+                Data currelem = *iter;
+                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+            }
+            else if(parsed_input == OP_INCREMENT){
+                ++iter;
+                std::cout << "\n\t\tIterator incremented!\n";
+            }
+            else if(parsed_input == OP_RESET){
+                iter.Reset();
+                std::cout << "\n\t\tIterator reset!\n";
+            }
+            else{
+                throw std::invalid_argument("");
+            }
+        }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::logic_error& err){
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+        }
+
+    }while(true);
+}
+
+template <typename Data>
+void testBreadthIterator(lasd::BTBreadthIterator<Data> & iter){
+    const unsigned short OP_VIEW = 1;
+    const unsigned short OP_INCREMENT = 2;
+    const unsigned short OP_RESET = 3;
+
+    unsigned short parsed_input;
+
+    do{
+        std::cout << "\n\t\t!~~~~~~~ BREADTH ITERATOR ~~~~~~~!\n";
+
+        std::cout << "\n\t\tSelect operation:\n";
+
+        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t(0) to Exit\n";
+
+        std::cout << "\n\t\t> ";
+
+        try{
+            getValue(parsed_input);
+
+            if(parsed_input == 0){
+                break;
+            }
+            else if(parsed_input == OP_VIEW){
+                Data currelem = *iter;
+                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+            }
+            else if(parsed_input == OP_INCREMENT){
+                ++iter;
+                std::cout << "\n\t\tIterator incremented!\n";
+            }
+            else if(parsed_input == OP_RESET){
+                iter.Reset();
+                std::cout << "\n\t\tIterator reset!\n";
+            }
+            else{
+                throw std::invalid_argument("");
+            }
+        }
+        catch(const std::length_error& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::out_of_range& err){
+            std::cout << "\n\t\t[!] " << err.what() << "\n";
+        }
+        catch(const std::logic_error& err){
+            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+        }
+
+    }while(true);
+}
 
 
 int generateInt(){
     std::default_random_engine gen(std::random_device{}());
-    std::uniform_int_distribution<int> int_dist(0, 10000);
+    std::uniform_int_distribution<int> int_dist(0, 100);
 
     return int_dist(gen);
 }
 
 float generateFloat(){
     std::default_random_engine gen(std::random_device{}());
-    std::uniform_real_distribution<float> float_dist(0, 100);
+    std::uniform_real_distribution<float> float_dist(0, 10);
 
     return float_dist(gen);
 }
@@ -716,7 +735,7 @@ std::string generateString()
 
     std::string generateString;
 
-    for (std::size_t i = 0; i < 10; ++i)
+    for (std::size_t i = 0; i < 5; ++i)
     {
         generateString += CHARACTERS[distribution(generator)];
     }

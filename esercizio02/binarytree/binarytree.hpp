@@ -134,6 +134,8 @@ public:
   // Specific member function (inherited from BreadthMappableContainer)
 
   void BreadthMap(MapFunctor) const override; // Override BreadthMappableContainer member
+  
+  void View() const override;
 
 protected:
   
@@ -161,7 +163,6 @@ protected:
 
   void BreadthMap(MapFunctor, const Node*) const; // Accessory function executing from one node of the tree
 
-  void View() const noexcept override{};
 };
 
 /* ************************************************************************** */
