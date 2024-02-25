@@ -163,6 +163,9 @@ protected:
 
   void BreadthMap(MapFunctor, const Node*) const; // Accessory function executing from one node of the tree
 
+  void PrintTree() const;
+  void PrintTree(const std::string&, const Node&, bool) const noexcept;
+
 };
 
 /* ************************************************************************** */

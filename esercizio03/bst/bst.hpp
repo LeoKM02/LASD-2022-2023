@@ -1,3 +1,4 @@
+
 #ifndef BST_HPP
 #define BST_HPP
 
@@ -24,7 +25,6 @@ protected:
   using BinaryTreeLnk<Data>::root;
 
 public:
-
   using BinaryTreeLnk<Data>::Map;
   using BinaryTreeLnk<Data>::PreOrderMap;
   using BinaryTreeLnk<Data>::PostOrderMap;
@@ -43,10 +43,10 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-  BST(const BST<Data>& bst): BinaryTreeLnk<Data>(bst){};
+  BST(const BST<Data>& bst) : BinaryTreeLnk<Data>(bst){};
 
   // Move constructor
-  BST(BST<Data>&& bst) noexcept: BinaryTreeLnk<Data>(std::move(bst)){};
+  BST(BST<Data>&& bst) noexcept : BinaryTreeLnk<Data>(std::move(bst)){};
 
   /* ************************************************************************ */
 
@@ -124,17 +124,17 @@ protected:
   virtual NodeLnk* Skip2Right(NodeLnk*&) noexcept;
 
   virtual NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept;
-  virtual NodeLnk* const& FindPointerToMin(NodeLnk* const&) const noexcept; // Both mutable & unmutable versions
+  virtual NodeLnk* const & FindPointerToMin(NodeLnk* const &) const noexcept; // Both mutable & unmutable versions
   virtual NodeLnk*& FindPointerToMax(NodeLnk*&) noexcept;
-  virtual NodeLnk* const& FindPointerToMax(NodeLnk* const&) const noexcept; // Both mutable & unmutable versions
+  virtual NodeLnk* const & FindPointerToMax(NodeLnk* const &) const noexcept; // Both mutable & unmutable versions
 
   virtual NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept;
-  virtual NodeLnk* const& FindPointerTo(NodeLnk* const&, const Data&) const noexcept; // Both mutable & unmutable versions
+  virtual NodeLnk* const & FindPointerTo(NodeLnk* const &, const Data&) const noexcept; // Both mutable & unmutable versions
 
   virtual NodeLnk** FindPointerToPredecessor(NodeLnk*&, const Data&) noexcept;
-  virtual NodeLnk* const* FindPointerToPredecessor(NodeLnk* const&, const Data&) const noexcept; // Both mutable & unmutable versions
+  virtual NodeLnk* const * FindPointerToPredecessor(NodeLnk* const &, const Data&) const noexcept; // Both mutable & unmutable versions
   virtual NodeLnk** FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept;
-  virtual NodeLnk* const* FindPointerToSuccessor(NodeLnk* const&, const Data&) const noexcept; // Both mutable & unmutable versions
+  virtual NodeLnk* const * FindPointerToSuccessor(NodeLnk* const &, const Data&) const noexcept; // Both mutable & unmutable versions
 
 };
 

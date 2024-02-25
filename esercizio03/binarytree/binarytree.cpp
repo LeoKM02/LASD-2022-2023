@@ -106,8 +106,10 @@ void BinaryTree<Data>::View() const{
     std::cout << "Size = " << this->Size() << "\n\n";
 
     std::cout << "Root: " << this->Root().Element() << "\n\n";
-    
-    std::cout << "PreOrder Visit:\n";
+
+    this->PrintTree();
+
+    std::cout << "\n\nPreOrder Visit:\n";
     this->PreOrderMap([](const Data& dat){
         std::cout << dat << " ";
     });
@@ -129,6 +131,33 @@ void BinaryTree<Data>::View() const{
 
     std::cout << "\n";
 }
+
+template <typename Data>
+void BinaryTree<Data>::PrintTree() const{
+    if(this->Empty()){
+        throw std::length_error("Empty tree!");
+    }
+
+    PrintTree("", Root(), false);
+}
+
+template <typename Data>
+void BinaryTree<Data>::PrintTree(const std::string& prefix, const typename BinaryTree<Data>::Node& nod, bool isLeft) const noexcept{
+    std::cout << prefix;
+    std::cout << (isLeft ? "├──" : "└──" );
+    std::cout << nod.Element() << "\n";
+
+    if(nod.HasLeftChild())
+        PrintTree(prefix + (isLeft ? "│   " : "    "), nod.LeftChild(), true);
+
+    if(nod.HasRightChild())
+        PrintTree(prefix + (isLeft ? "│   " : "    "), nod.RightChild(), false);
+}
+
+
+
+
+
 
 template <typename Data>
 void BinaryTree<Data>::PreOrderFold(FoldFunctor fun, void* res, const Node* nod) const {
