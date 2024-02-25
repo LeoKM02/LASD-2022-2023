@@ -117,7 +117,7 @@ unsigned short selectStructure(){
             }
         }
         catch(const std::logic_error& err){
-            std::cout << "\t[!] Invalid option. Please retry.\n";
+            std::cout << "[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -154,7 +154,7 @@ unsigned short selectType(){
             }
         }
         catch(const std::logic_error& err){
-            std::cout << "\t[!] Invalid option. Please retry.\n";
+            std::cout << "[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -216,12 +216,12 @@ void testBinaryTree(lasd::MutableBinaryTree<Data> & con){
                 break;
             }
             else if(parsed_input == OP_VIEW){
-                std::cout << "\n\t\tViewing container...\n\n";
+                std::cout << "\nViewing container...\n\n";
                 con.View();
             }
             else if(parsed_input == OP_CLEAR){
                 con.Clear();
-                std::cout << "\n\t\tContainer successfully cleared!\n\n";
+                std::cout << "\nContainer successfully cleared!\n\n";
             }
             else if(parsed_input == OP_EXISTS){
 
@@ -233,10 +233,10 @@ void testBinaryTree(lasd::MutableBinaryTree<Data> & con){
                 getValue(value);
 
                 if(con.Exists(value)){
-                    std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
+                    std::cout << "\nValue \"" << value << "\" found!\n\n";
                 }
                 else{
-                    std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
+                    std::cout << "\nValue \"" << value << "\" not found!\n\n";
                 }
             }
             else if(parsed_input == OP_ITER){
@@ -279,13 +279,13 @@ void testBinaryTree(lasd::MutableBinaryTree<Data> & con){
             }
         }
         catch(const std::length_error& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::out_of_range& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::logic_error& err){
-            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -336,12 +336,12 @@ void testBST(lasd::BST<Data>& con){
                 break;
             }
             else if(parsed_input == OP_VIEW){
-                std::cout << "\n\t\tViewing container...\n\n";
+                std::cout << "\nViewing container...\n\n";
                 con.View();
             }
             else if(parsed_input == OP_CLEAR){
                 con.Clear();
-                std::cout << "\n\t\tContainer successfully cleared!\n\n";
+                std::cout << "\nContainer successfully cleared!\n\n";
             }
             else if(parsed_input == OP_EXISTS){
                 Data value;
@@ -352,10 +352,10 @@ void testBST(lasd::BST<Data>& con){
                 getValue(value);
 
                 if(con.Exists(value)){
-                    std::cout << "\n\t\tValue \"" << value << "\" found!\n\n";
+                    std::cout << "\nValue \"" << value << "\" found!\n\n";
                 }
                 else{
-                    std::cout << "\n\t\tValue \"" << value << "\" not found!\n\n";
+                    std::cout << "\nValue \"" << value << "\" not found!\n\n";
                 }
             }
             else if(parsed_input == OP_ITER){
@@ -400,10 +400,10 @@ void testBST(lasd::BST<Data>& con){
                 getValue(value);
 
                 if(con.Insert(value)){
-                    std::cout << "\n\t\tValue inserted successfully!\n";
+                    std::cout << "\nValue inserted successfully!\n";
                 }
                 else{
-                    std::cout << "\n\t\tInsert failed!\n";
+                    std::cout << "\nInsert failed!\n";
                 }
             }
             else if(parsed_input == OP_REMOVE){
@@ -413,23 +413,23 @@ void testBST(lasd::BST<Data>& con){
                 getValue(value);
 
                 if(con.Remove(value)){
-                    std::cout << "\n\t\tValue removed successfully!\n";
+                    std::cout << "\nValue removed successfully!\n";
                 }
                 else{
-                    std::cout << "\n\t\tInsert failed!\n";
+                    std::cout << "\nInsert failed!\n";
                 }
             }
             else if(parsed_input == OP_MIN_N_REMOVE){
                 Data min = con.MinNRemove();
 
-                std::cout << "\n\t\tMin: " << min << "\n";
-                std::cout << "\n\t\tMin successfully removed from tree!\n";
+                std::cout << "\nMin: " << min << "\n";
+                std::cout << "\nMin successfully removed from tree!\n";
             }
             else if(parsed_input == OP_MAX_N_REMOVE){
                 Data min = con.MaxNRemove();
 
-                std::cout << "\n\t\tMax: " << min << "\n";
-                std::cout << "\n\t\tMax successfully removed from tree!\n";
+                std::cout << "\nMax: " << min << "\n";
+                std::cout << "\nMax successfully removed from tree!\n";
             }
             else if(parsed_input == OP_PREDECESSOR){
                 Data value;
@@ -438,7 +438,7 @@ void testBST(lasd::BST<Data>& con){
                 getValue(value);
 
                 Data pred = con.Predecessor(value);
-                std::cout << "\n\t\tPredecessor of " << value << ": " << pred << "\n";
+                std::cout << "\nPredecessor of " << value << ": " << pred << "\n";
             }
             else if(parsed_input == OP_PREDECESSOR_N_REMOVE){
                 Data value;
@@ -447,8 +447,8 @@ void testBST(lasd::BST<Data>& con){
                 getValue(value);
 
                 Data pred = con.PredecessorNRemove(value);
-                std::cout << "\n\t\tPredecessor of " << value << ": " << pred << "\n";
-                std::cout << "\n\t\tPredecessor successfully removed from tree!\n";
+                std::cout << "\nPredecessor of " << value << ": " << pred << "\n";
+                std::cout << "\nPredecessor successfully removed from tree!\n";
             }
             else if(parsed_input == OP_SUCCESSOR){
                 Data value;
@@ -457,7 +457,7 @@ void testBST(lasd::BST<Data>& con){
                 getValue(value);
 
                 Data succ = con.Successor(value);
-                std::cout << "\n\t\tSuccessor of " << value << ": " << succ << "\n";
+                std::cout << "\nSuccessor of " << value << ": " << succ << "\n";
             }
             else if(parsed_input == OP_SUCCESSOR_N_REMOVE){
                 Data value;
@@ -466,21 +466,21 @@ void testBST(lasd::BST<Data>& con){
                 getValue(value);
 
                 Data succ = con.SuccessorNRemove(value);
-                std::cout << "\n\t\tSuccessor of " << value << ": " << succ << "\n";
-                std::cout << "\n\t\tSuccessor successfully removed from tree!\n";
+                std::cout << "\nSuccessor of " << value << ": " << succ << "\n";
+                std::cout << "\nSuccessor successfully removed from tree!\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
         catch(const std::length_error& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::out_of_range& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::logic_error& err){
-            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -499,16 +499,16 @@ void testPreOrderIterator(lasd::BTPreOrderIterator<Data> & iter){
     unsigned short parsed_input;
 
     do{
-        std::cout << "\n\t\t!~~~~~~~ PREORDER ITERATOR ~~~~~~~!\n";
+        std::cout << "\n\t\t\t!~~~~~~~ PREORDER ITERATOR ~~~~~~~!\n";
 
-        std::cout << "\n\t\tSelect operation:\n";
+        std::cout << "\n\t\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
-        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
-        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
-        std::cout << "\n\t\t(0) to Exit\n";
+        std::cout << "\n\t\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t\t(0) to Exit\n";
 
-        std::cout << "\n\t\t> ";
+        std::cout << "\n\t\t\t> ";
 
         try{
             getValue(parsed_input);
@@ -518,28 +518,28 @@ void testPreOrderIterator(lasd::BTPreOrderIterator<Data> & iter){
             }
             else if(parsed_input == OP_VIEW){
                 Data currelem = *iter;
-                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+                std::cout << "\nCurrent element: " << currelem << "\n";
             }
             else if(parsed_input == OP_INCREMENT){
                 ++iter;
-                std::cout << "\n\t\tIterator incremented!\n";
+                std::cout << "\nIterator incremented!\n";
             }
             else if(parsed_input == OP_RESET){
                 iter.Reset();
-                std::cout << "\n\t\tIterator reset!\n";
+                std::cout << "\nIterator reset!\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
         catch(const std::length_error& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::out_of_range& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::logic_error& err){
-            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -554,16 +554,16 @@ void testPostOrderIterator(lasd::BTPostOrderIterator<Data> & iter){
     unsigned short parsed_input;
 
     do{
-        std::cout << "\n\t\t!~~~~~~~ POSTORDER ITERATOR ~~~~~~~!\n";
+        std::cout << "\n\t\t\t!~~~~~~~ POSTORDER ITERATOR ~~~~~~~!\n";
 
-        std::cout << "\n\t\tSelect operation:\n";
+        std::cout << "\n\t\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
-        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
-        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
-        std::cout << "\n\t\t(0) to Exit\n";
+        std::cout << "\n\t\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t\t(0) to Exit\n";
 
-        std::cout << "\n\t\t> ";
+        std::cout << "\n\t\t\t> ";
 
         try{
             getValue(parsed_input);
@@ -573,28 +573,28 @@ void testPostOrderIterator(lasd::BTPostOrderIterator<Data> & iter){
             }
             else if(parsed_input == OP_VIEW){
                 Data currelem = *iter;
-                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+                std::cout << "\nCurrent element: " << currelem << "\n";
             }
             else if(parsed_input == OP_INCREMENT){
                 ++iter;
-                std::cout << "\n\t\tIterator incremented!\n";
+                std::cout << "\nIterator incremented!\n";
             }
             else if(parsed_input == OP_RESET){
                 iter.Reset();
-                std::cout << "\n\t\tIterator reset!\n";
+                std::cout << "\nIterator reset!\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
         catch(const std::length_error& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::out_of_range& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::logic_error& err){
-            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -609,16 +609,16 @@ void testInOrderIterator(lasd::BTInOrderIterator<Data> & iter){
     unsigned short parsed_input;
 
     do{
-        std::cout << "\n\t\t!~~~~~~~ INORDER ITERATOR ~~~~~~~!\n";
+        std::cout << "\n\t\t\t!~~~~~~~ INORDER ITERATOR ~~~~~~~!\n";
 
-        std::cout << "\n\t\tSelect operation:\n";
+        std::cout << "\n\t\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
-        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
-        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
-        std::cout << "\n\t\t(0) to Exit\n";
+        std::cout << "\n\t\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t\t(0) to Exit\n";
 
-        std::cout << "\n\t\t> ";
+        std::cout << "\n\t\t\t> ";
 
         try{
             getValue(parsed_input);
@@ -628,28 +628,28 @@ void testInOrderIterator(lasd::BTInOrderIterator<Data> & iter){
             }
             else if(parsed_input == OP_VIEW){
                 Data currelem = *iter;
-                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+                std::cout << "\nCurrent element: " << currelem << "\n";
             }
             else if(parsed_input == OP_INCREMENT){
                 ++iter;
-                std::cout << "\n\t\tIterator incremented!\n";
+                std::cout << "\nIterator incremented!\n";
             }
             else if(parsed_input == OP_RESET){
                 iter.Reset();
-                std::cout << "\n\t\tIterator reset!\n";
+                std::cout << "\nIterator reset!\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
         catch(const std::length_error& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::out_of_range& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::logic_error& err){
-            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n[!] Invalid option. Please retry.\n";
         }
 
     }while(true);
@@ -664,16 +664,16 @@ void testBreadthIterator(lasd::BTBreadthIterator<Data> & iter){
     unsigned short parsed_input;
 
     do{
-        std::cout << "\n\t\t!~~~~~~~ BREADTH ITERATOR ~~~~~~~!\n";
+        std::cout << "\n\t\t\t!~~~~~~~ BREADTH ITERATOR ~~~~~~~!\n";
 
-        std::cout << "\n\t\tSelect operation:\n";
+        std::cout << "\n\t\t\tSelect operation:\n";
 
-        std::cout << "\n\t\t(" << OP_VIEW << ") VIEW: View current element\n";
-        std::cout << "\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
-        std::cout << "\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
-        std::cout << "\n\t\t(0) to Exit\n";
+        std::cout << "\n\t\t\t(" << OP_VIEW << ") VIEW: View current element\n";
+        std::cout << "\t\t\t(" << OP_INCREMENT << ") INCREMENT: Increment iterator\n";
+        std::cout << "\t\t\t(" << OP_RESET << ") RESET: Reset iterator\n";
+        std::cout << "\n\t\t\t(0) to Exit\n";
 
-        std::cout << "\n\t\t> ";
+        std::cout << "\n\t\t\t> ";
 
         try{
             getValue(parsed_input);
@@ -683,28 +683,28 @@ void testBreadthIterator(lasd::BTBreadthIterator<Data> & iter){
             }
             else if(parsed_input == OP_VIEW){
                 Data currelem = *iter;
-                std::cout << "\n\t\tCurrent element: " << currelem << "\n";
+                std::cout << "\nCurrent element: " << currelem << "\n";
             }
             else if(parsed_input == OP_INCREMENT){
                 ++iter;
-                std::cout << "\n\t\tIterator incremented!\n";
+                std::cout << "\nIterator incremented!\n";
             }
             else if(parsed_input == OP_RESET){
                 iter.Reset();
-                std::cout << "\n\t\tIterator reset!\n";
+                std::cout << "\nIterator reset!\n";
             }
             else{
                 throw std::invalid_argument("");
             }
         }
         catch(const std::length_error& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::out_of_range& err){
-            std::cout << "\n\t\t[!] " << err.what() << "\n";
+            std::cout << "\n[!] " << err.what() << "\n";
         }
         catch(const std::logic_error& err){
-            std::cout << "\n\t\t[!] Invalid option. Please retry.\n";
+            std::cout << "\n[!] Invalid option. Please retry.\n";
         }
 
     }while(true);

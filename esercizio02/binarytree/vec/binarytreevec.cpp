@@ -122,22 +122,22 @@ BinaryTreeVec<Data>::BinaryTreeVec(MutableMappableContainer<Data>&& con) noexcep
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data>& btv) {
-    size = btv.Size();
+BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data>& btvec) {
+    size = btvec.Size();
     if(this->Size() > 0) {
         vec =  new Vector<NodeVec*>(this->Size());
         for(unsigned long i=0; i<this->Size(); i++) {
-            NodeVec* tmp = new NodeVec(btv.vec->operator[](i)->Element(), i, vec);
-            vec->operator[](i) = tmp;
+            NodeVec* temp = new NodeVec(btvec.vec->operator[](i)->Element(), i, vec);
+            vec->operator[](i) = temp;
         }
     }
     
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data>&& btv) noexcept {
-    std::swap(size, btv.size);
-    std::swap(vec, btv.vec);
+BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data>&& btvec) noexcept {
+    std::swap(size, btvec.size);
+    std::swap(vec, btvec.vec);
 }
 
 template <typename Data>
@@ -149,17 +149,17 @@ BinaryTreeVec<Data>::~BinaryTreeVec() {
 }
 
 template <typename Data>
-BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data>& btv) {
-    BinaryTreeVec<Data>* tmp = new BinaryTreeVec<Data>(btv);
-    std::swap(*this, *tmp);
-    delete tmp;
+BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data>& btvec) {
+    BinaryTreeVec<Data>* temp = new BinaryTreeVec<Data>(btvec);
+    std::swap(*this, *temp);
+    delete temp;
     return *this;
 }
 
 template <typename Data>
-BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data>&& btv) noexcept {
-    std::swap(size, btv.size);
-    std::swap(vec, btv.vec);
+BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data>&& btvec) noexcept {
+    std::swap(size, btvec.size);
+    std::swap(vec, btvec.vec);
     return *this;
 }
 
