@@ -416,7 +416,7 @@ void testBST(lasd::BST<Data>& con){
                     std::cout << "\nValue removed successfully!\n";
                 }
                 else{
-                    std::cout << "\nInsert failed!\n";
+                    std::cout << "\nRemove failed!\n";
                 }
             }
             else if(parsed_input == OP_MIN_N_REMOVE){
