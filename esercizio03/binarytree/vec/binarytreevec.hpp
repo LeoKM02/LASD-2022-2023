@@ -25,8 +25,9 @@ protected:
   struct NodeVec: public virtual MutableNode {
   public:
 
-    unsigned long curr = 0;
     Data elem;
+    unsigned long curr = 0;
+
     Vector<NodeVec*> *vecptr = nullptr;
 
     NodeVec() = default;
@@ -56,7 +57,7 @@ protected:
 
   };
 
-  Vector<NodeVec*> *vec = nullptr;
+  Vector<NodeVec*> *treevec = nullptr;
 
 public:
 
@@ -93,12 +94,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const BinaryTreeVec<Data>& btv) const noexcept {
-    return MutableBinaryTree<Data>::operator==(btv);
-  };
-  bool operator!=(const BinaryTreeVec<Data>& btv) const noexcept {
-    return !(*this == btv);
-  };
+  bool operator==(const BinaryTreeVec<Data>&) const noexcept;
+  bool operator!=(const BinaryTreeVec<Data>&) const noexcept;
 
   /* ************************************************************************ */
 

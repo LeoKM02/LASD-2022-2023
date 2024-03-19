@@ -169,36 +169,42 @@ void BST<Data>::RemoveSuccessor(const Data& dat){
 template <typename Data>
 bool BST<Data>::Insert(const Data& dat){
     NodeLnk*& temp = FindPointerTo(root, dat);
+    bool result = false;
 
     if(temp == nullptr) {
         temp = new NodeLnk(dat);
+        result = true;
         ++size;
-        return true;
     }
-    return false;
+
+    return result;
 }
 
 template <typename Data>
 bool BST<Data>::Insert(Data&& dat) noexcept{
     NodeLnk*& temp = FindPointerTo(root, dat);
+    bool result = false;
 
     if(temp == nullptr) {
         temp = new NodeLnk(std::move(dat));
+        result = true;
         ++size;
-        return true;
     }
-    return false;
+
+    return result;
 }
 
 template <typename Data>
 bool BST<Data>::Remove(const Data& dat){
     NodeLnk*& temp = FindPointerTo(root, dat);
+    bool result = false;
 
     if(temp != nullptr) {
         delete Detach(temp);
-        return true;
+        result = true;
     }
-    return false;
+
+    return result;
 }
 
 template <typename Data>
@@ -296,22 +302,26 @@ typename BST<Data>::NodeLnk* BST<Data>::DetachMax(NodeLnk*& nod) noexcept{
 template <typename Data>
 typename BST<Data>::NodeLnk* BST<Data>::Skip2Left(NodeLnk*& nod) noexcept{
     NodeLnk* temp = nullptr;
+
     if(nod != nullptr){
         std::swap(temp, nod->lc);
         std::swap(temp, nod);
-        size--;
+        --size;
     }
+
     return temp;
 }
 
 template <typename Data>
 typename BST<Data>::NodeLnk* BST<Data>::Skip2Right(NodeLnk*& nod) noexcept{
     NodeLnk* temp = nullptr;
+
     if(nod != nullptr){
         std::swap(temp, nod->rc);
         std::swap(temp, nod);
-        size--;
+        --size;
     }
+
     return temp;
 }
 
@@ -329,6 +339,7 @@ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToMin(NodeLnk* const& 
             temp = &(*temp)->lc;
         }
     }
+
     return *temp;
 }
 
@@ -369,6 +380,7 @@ typename BST<Data>::NodeLnk* const & BST<Data>::FindPointerTo(NodeLnk* const & n
             temp = &(FindPointerTo(nod->lc, dat));
         }
     }
+    
     return *temp;
 }
 
